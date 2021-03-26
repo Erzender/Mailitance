@@ -29,6 +29,8 @@ api.use(accountCnt.checkToken);
 
 // authenticated routes :
 api.get("/", (req, res) => res.send("SUCCESS"));
+api.patch("/account", accountCnt.update);
+api.post("/account", accountCnt.addAccount);
 
 app.use("/api", api);
 

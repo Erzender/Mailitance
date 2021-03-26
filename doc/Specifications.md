@@ -3,7 +3,7 @@
 Fonctionnalités vitales (requises) | statut
 -----------------------------------|---------
 Un utilisateur possède un accès unique et sécurisé par mot de passe | ✅
-Un utilisateur peut modifier son mot de passe | 📚
+Un utilisateur peut modifier son mot de passe | ✅
 Un administrateur peut ajouter/altérer/supprimer un utilisateur | ⏳
 Un administrateur peut créer/altérer/supprimer un groupe opératoire | 📚
 Un administrateur peut ajouter/retirer un utilisateur à un groupe opératoire en tant qu'opérateur | 📚
