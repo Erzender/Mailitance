@@ -6,7 +6,7 @@ const User = db.sequelize.define("user", {
     unique: true,
     type: Sequelize.STRING,
   },
-  displayname: Sequelize.STRING,
+  displayName: Sequelize.STRING,
   password: Sequelize.STRING,
   admin: Sequelize.BOOLEAN,
 });

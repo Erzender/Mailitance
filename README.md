@@ -1,6 +1,6 @@
 # [En développement] MAILITANCE
 
-Mailitance est un système de carnet d'adresses paramétrable destiné aux groupes militants de la France Insoumise et de la campagne noussommespour.fr, dont l'objectif est de favoriser la communication d'une information pertinente depuis ces mêmes groupes d'action vers les sympathisants dont les militants seraient amenés à recueillir le contact sur le terrain.
+Mailitance est un système de carnet d'adresses paramétrable destiné aux groupes militants de la France Insoumise et de la campagne https://noussommespour.fr/ , dont l'objectif est de favoriser la communication d'une information pertinente depuis ces mêmes groupes d'action vers les sympathisants dont les militants seraient amenés à recueillir le contact sur le terrain.
 
 ## Exigences
 Le système conduit intrinsèquement à l'hébergement de données sensibles, son fonctionnement et son pilotage doivent donc répondre à 2 exigences :

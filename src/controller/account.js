@@ -31,5 +31,30 @@ const login = async (req, res) => {
   return res.json({ success: true, token: token });
 };
 
+const update = async (req, res) => {
+  if (!req.body.id) {
+    return error.status(res, "missing_parameters");
+  }
+  let ret = await accountService.update(req.decoded.id, req.body);
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true });
+};
+
+const addAccount = async (req, res) => {
+  let ret = await accountService.checkRightsAndAddAccount(
+    req.decoded.id,
+    req.body.username,
+    req.body.password
+  );
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true });
+};
+
 exports.checkToken = checkToken;
 exports.login = login;
+exports.update = update;
+exports.addAccount = addAccount;
