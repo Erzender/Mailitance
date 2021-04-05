@@ -4,6 +4,7 @@ const accountService = require("./account");
 
 const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
   let isAdmin = await accountService.checkAdmin(actor);
+  let group = null;
   if (isAdmin.error) return isAdmin;
   if (!groupTitle) return { error: "missing_parameter" };
   try {
@@ -12,27 +13,27 @@ const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
       parentGroup = await data.Group.findByPk(parentGroupId);
       if (!parentGroup) return { error: "unknown_group" };
     }
-    let newGroup = await data.Group.create({ title: groupTitle });
+    group = await data.Group.create({ title: groupTitle });
     if (parentGroup) {
-      await newGroup.setParentGroup(parentGroup);
+      await group.setParentGroup(parentGroup);
     }
   } catch (err) {
     console.error(err);
     return { error: "internal_error" };
   }
-  return { error: false };
+  return { error: false, group };
 };
 
-const checkRightsAndAddGroupOperators = async (actor, groupId, userIds) => {
+const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
   let isAdmin = await accountService.checkAdmin(actor);
   if (isAdmin.error) return isAdmin;
-  if (!groupId || !Array.isArray(userIds) || userIds.length === 0)
+  if (!groupId || !Array.isArray(usersParam) || usersParam.length === 0)
     return { error: "missing_parameter" };
   try {
     let users = await data.User.findAll({
-      where: { id: { [Op.in]: userIds } },
+      where: { id: { [Op.in]: usersParam } },
     });
-    if (users.length < userIds.length) return { error: "unknown_user" };
+    if (users.length < usersParam.length) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
     if (!group) return { error: "unknown_group" };
     await group.addUsers(users, { through: "GroupOperator" });

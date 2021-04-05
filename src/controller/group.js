@@ -10,7 +10,7 @@ const addGroup = async (req, res, next) => {
   if (!!ret.error) {
     return error.status(res, ret.error);
   }
-  return res.json({ success: true });
+  return res.json({ success: true, groupId: ret.group.dataValues.id });
 };
 
 const addGroupOperators = async (req, res, next) => {
