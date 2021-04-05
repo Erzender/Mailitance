@@ -11,7 +11,7 @@ Un administrateur peut créer/altérer/supprimer un groupe opératoire | ⏳📐
 Un administrateur peut ajouter/retirer un utilisateur à un groupe opératoire en tant qu'opérateur | ⏳📐
 Un opérateur peut ajouter un utilisateur | ✅
 Un opérateur peut ajouter un utilisateur à son groupe opératoire en tant que militant | ✅📐
-Un militant peut ajouter un contact à son groupe opératoire (unicité email => écraser si doublon en base) | ⏳📐
+Un militant peut ajouter un contact à son groupe opératoire (unicité email => écraser si doublon en base) | ✅📐
 Un opérateur peut supprimer un contact de la base (sélection par email) | 📚📐
 Un opérateur peut accéder aux contacts de son groupe opératoire | 📚📐
  | 

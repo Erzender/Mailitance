@@ -1,3 +1,5 @@
+const Op = require("sequelize").Op;
+
 const data = require("../_model");
 const accountService = require("./account");
 
@@ -16,7 +18,6 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
     let invalidContacts = contacts.filter((contact) => {
       if (!contact.email && !contact.phone) return true;
       if (contact.age && !CONTACT_AGES.includes(contact.age)) return true;
-      console.log("hello");
       if (contact.status && !CONTACT_STATUSES.includes(contact.status))
         return true;
       if (contact.topics && !Array.isArray(contact.topics)) return true;
@@ -30,6 +31,24 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
     if (!group) return { error: "unknown_group" };
     let isMilitant = await accountService.checkMilitant(userId, groupId);
     if (isMilitant.error) return isMilitant;
+
+    // Mails ou téléphone existants en base => détruire et recréer
+    await data.Contact.destroy({
+      where: {
+        [Op.or]: {
+          email: {
+            [Op.in]: contacts
+              .map((contact) => contact.email)
+              .filter((elem) => elem !== null),
+          },
+          phone: {
+            [Op.in]: contacts
+              .map((contact) => contact.phone)
+              .filter((elem) => elem !== null),
+          },
+        },
+      },
+    });
 
     for (let contactParam of contacts) {
       let contact = await data.Contact.create({
