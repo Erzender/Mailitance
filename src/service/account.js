@@ -39,13 +39,26 @@ const checkAdmin = async (userId) => {
 
 const checkOperator = async (userId, groupId = null) => {
   let user = await data.User.findByPk(userId);
-  let groups = await user.getGroups({ thourgh: "GroupOperator" });
+  let groups = await user.getOperatingGroups();
   if (
     groups.length === 0 ||
     (groupId !== null &&
       !groups.map((group) => group.dataValues.id).includes(groupId))
   ) {
-    return { error: "forbidden" };
+    return checkAdmin(userId);
+  }
+  return { error: false };
+};
+
+const checkMilitant = async (userId, groupId = null) => {
+  let user = await data.User.findByPk(userId);
+  let groups = await user.getMilitantGroups();
+  if (
+    groups.length === 0 ||
+    (groupId !== null &&
+      !groups.map((group) => group.dataValues.id).includes(groupId))
+  ) {
+    return checkOperator(userId, groupId);
   }
   return { error: false };
 };
@@ -145,4 +158,5 @@ exports.init = init;
 exports.update = update;
 exports.checkAdmin = checkAdmin;
 exports.checkOperator = checkOperator;
+exports.checkMilitant = checkMilitant;
 exports.checkRightsAndAddAccount = checkRightsAndAddAccount;
