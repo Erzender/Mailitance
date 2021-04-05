@@ -45,11 +45,8 @@ const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
 };
 
 const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
-  let isAdmin = await accountService.checkAdmin(actor);
-  if (isAdmin.error) {
-    let isOperator = await accountService.checkOperator(actor, groupId);
-    if (isOperator.error) return isAdmin;
-  }
+  let isOperator = await accountService.checkOperator(actor, groupId);
+  if (isOperator.error) return isOperator;
   if (!groupId || !Array.isArray(usersParam) || usersParam.length === 0)
     return { error: "missing_parameter" };
   try {

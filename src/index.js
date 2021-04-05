@@ -8,6 +8,7 @@ const data = require("./_model");
 const db = require("./_data");
 const accountCnt = require("./controller/account");
 const groupCnt = require("./controller/group");
+const contactCnt = require("./controller/contact");
 const accountService = require("./service/account");
 
 const app = express();
@@ -30,12 +31,13 @@ api.post("/login", accountCnt.login);
 api.use(accountCnt.checkToken);
 
 // authenticated routes :
-api.get("/", (req, res) => res.send("SUCCESS"));
+api.get("/", (req, res) => res.send("EN CONSTRUCTION"));
 api.patch("/account", accountCnt.update);
 api.post("/account", accountCnt.addAccount);
 api.post("/group", groupCnt.addGroup);
 api.post("/groupOperators", groupCnt.addGroupOperators);
 api.post("/groupMilitants", groupCnt.addGroupMilitants);
+api.post("/contacts", contactCnt.addContacts);
 
 app.use("/api", api);
 
