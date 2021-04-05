@@ -33,10 +33,10 @@ const Contact = db.sequelize.define("contact", {
 
 Contact.belongsTo(Group);
 Group.belongsTo(Group, { as: "ParentGroup" });
-User.belongsToMany(Group, { through: "GroupOperator" });
-Group.belongsToMany(User, { through: "GroupOperator" });
-User.belongsToMany(Group, { through: "GroupMilitant" });
-Group.belongsToMany(User, { through: "GroupMilitant" });
+User.belongsToMany(Group, { as: "OperatingGroups", through: "GroupOperators" });
+Group.belongsToMany(User, { as: "Operators", through: "GroupOperators" });
+User.belongsToMany(Group, { as: "MilitantGroups", through: "GroupMilitants" });
+Group.belongsToMany(User, { as: "Militants", through: "GroupMilitants" });
 
 exports.User = User;
 exports.Group = Group;

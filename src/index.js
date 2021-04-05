@@ -35,6 +35,7 @@ api.patch("/account", accountCnt.update);
 api.post("/account", accountCnt.addAccount);
 api.post("/group", groupCnt.addGroup);
 api.post("/groupOperators", groupCnt.addGroupOperators);
+api.post("/groupMilitants", groupCnt.addGroupMilitants);
 
 app.use("/api", api);
 
