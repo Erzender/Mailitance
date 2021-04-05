@@ -36,7 +36,30 @@ const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
     if (users.length < usersParam.length) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
     if (!group) return { error: "unknown_group" };
-    await group.addUsers(users, { through: "GroupOperator" });
+    await group.addOperators(users);
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
+};
+
+const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
+  let isAdmin = await accountService.checkAdmin(actor);
+  if (isAdmin.error) {
+    let isOperator = await accountService.checkOperator(actor, groupId);
+    if (isOperator.error) return isAdmin;
+  }
+  if (!groupId || !Array.isArray(usersParam) || usersParam.length === 0)
+    return { error: "missing_parameter" };
+  try {
+    let users = await data.User.findAll({
+      where: { id: { [Op.in]: usersParam } },
+    });
+    if (users.length < usersParam.length) return { error: "unknown_user" };
+    let group = await data.Group.findByPk(groupId);
+    if (!group) return { error: "unknown_group" };
+    await group.addMilitants(users);
   } catch (err) {
     console.error(err);
     return { error: "internal_error" };
@@ -46,3 +69,4 @@ const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
 
 exports.checkRightsAndAddGroup = checkRightsAndAddGroup;
 exports.checkRightsAndAddGroupOperators = checkRightsAndAddGroupOperators;
+exports.checkRightsAndAddGroupMilitants = checkRightsAndAddGroupMilitants;
