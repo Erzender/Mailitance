@@ -51,7 +51,7 @@ const addAccount = async (req, res) => {
   if (!!ret.error) {
     return error.status(res, ret.error);
   }
-  return res.json({ success: true });
+  return res.json({ success: true, userId: ret.user.dataValues.id });
 };
 
 exports.checkToken = checkToken;

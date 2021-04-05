@@ -5,9 +5,10 @@ const addAccount = async (username, password, admin) => {
   if (!password || !username) {
     return { error: "missing_parameter" };
   }
+  let user = null;
   try {
-    var hash = await bcrypt.hash(password, 10);
-    var user = await data.User.create({
+    let hash = await bcrypt.hash(password, 10);
+    user = await data.User.create({
       password: hash,
       username,
       displayName: username,
@@ -20,12 +21,12 @@ const addAccount = async (username, password, admin) => {
     console.error(err);
     return { error: "internal_error" };
   }
-  return { error: false };
+  return { error: false, user };
 };
 
-const checkAdmin = async (actor) => {
+const checkAdmin = async (userId) => {
   try {
-    let user = await data.User.findByPk(actor);
+    let user = await data.User.findByPk(userId);
     if (!user.admin) {
       return { error: "forbidden" };
     }
@@ -36,9 +37,25 @@ const checkAdmin = async (actor) => {
   }
 };
 
-const checkRightsAndAddAccount = async (actor, username, password) => {
-  let isAdmin = await checkAdmin(actor);
-  if (isAdmin.error) return isAdmin;
+const checkOperator = async (userId, groupId = null) => {
+  let user = await data.User.findByPk(userId);
+  let groups = await user.getGroups({ thourgh: "GroupOperator" });
+  if (
+    groups.length === 0 ||
+    (groupId !== null &&
+      !groups.map((group) => group.dataValues.id).includes(groupId))
+  ) {
+    return { error: "forbidden" };
+  }
+  return { error: false };
+};
+
+const checkRightsAndAddAccount = async (userId, username, password) => {
+  let isAdmin = await checkAdmin(userId);
+  if (isAdmin.error) {
+    let isOperator = await checkOperator(userId);
+    if (isOperator.error) return isAdmin;
+  }
   return await addAccount(username, password, false);
 };
 
@@ -127,4 +144,5 @@ exports.login = login;
 exports.init = init;
 exports.update = update;
 exports.checkAdmin = checkAdmin;
+exports.checkOperator = checkOperator;
 exports.checkRightsAndAddAccount = checkRightsAndAddAccount;
