@@ -1,0 +1,16 @@
+const error = require("../service/error");
+const groupService = require("../service/group");
+
+const addGroup = async (req, res, next) => {
+  let ret = await groupService.checkRightsAndAddGroup(
+    req.decoded.id,
+    req.body.title,
+    req.body.parentGroup
+  );
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true });
+};
+
+exports.addGroup = addGroup;

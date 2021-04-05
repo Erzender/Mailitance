@@ -23,17 +23,23 @@ const addAccount = async (username, password, admin) => {
   return { error: false };
 };
 
-const checkRightsAndAddAccount = async (actor, username, password) => {
+const checkAdmin = async (actor) => {
   try {
     let user = await data.User.findByPk(actor);
     if (!user.admin) {
       return { error: "forbidden" };
     }
-    return addAccount(username, password, false);
+    return { error: false };
   } catch (err) {
     console.error(err);
     return { error: "internal_error" };
   }
+};
+
+const checkRightsAndAddAccount = async (actor, username, password) => {
+  let isAdmin = await checkAdmin(actor);
+  if (isAdmin.error) return isAdmin;
+  return await addAccount(username, password, false);
 };
 
 const login = async (username, password) => {
@@ -120,4 +126,5 @@ exports.addAccount = addAccount;
 exports.login = login;
 exports.init = init;
 exports.update = update;
+exports.checkAdmin = checkAdmin;
 exports.checkRightsAndAddAccount = checkRightsAndAddAccount;

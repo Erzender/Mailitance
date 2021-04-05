@@ -7,6 +7,7 @@ const status = (res, err) => {
     case "invalid_parameter":
       return res.status(400).send(err);
     case "unknown_user":
+    case "unknown_group":
     case "wrong_password":
     case "forbidden":
     case "no_token":
