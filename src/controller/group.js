@@ -13,4 +13,17 @@ const addGroup = async (req, res, next) => {
   return res.json({ success: true });
 };
 
+const addGroupOperators = async (req, res, next) => {
+  let ret = await groupService.checkRightsAndAddGroupOperators(
+    req.decoded.id,
+    req.body.group,
+    req.body.users
+  );
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true });
+};
+
 exports.addGroup = addGroup;
+exports.addGroupOperators = addGroupOperators;
