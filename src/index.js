@@ -34,6 +34,7 @@ api.get("/", (req, res) => res.send("SUCCESS"));
 api.patch("/account", accountCnt.update);
 api.post("/account", accountCnt.addAccount);
 api.post("/group", groupCnt.addGroup);
+api.post("/groupOperators", groupCnt.addGroupOperators);
 
 app.use("/api", api);
 

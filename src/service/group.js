@@ -1,3 +1,4 @@
+const Op = require("sequelize").Op;
 const data = require("../_model");
 const accountService = require("./account");
 
@@ -22,4 +23,25 @@ const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
   return { error: false };
 };
 
+const checkRightsAndAddGroupOperators = async (actor, groupId, userIds) => {
+  let isAdmin = await accountService.checkAdmin(actor);
+  if (isAdmin.error) return isAdmin;
+  if (!groupId || !Array.isArray(userIds) || userIds.length === 0)
+    return { error: "missing_parameter" };
+  try {
+    let users = await data.User.findAll({
+      where: { id: { [Op.in]: userIds } },
+    });
+    if (users.length < userIds.length) return { error: "unknown_user" };
+    let group = await data.Group.findByPk(groupId);
+    if (!group) return { error: "unknown_group" };
+    await group.addUsers(users, { through: "GroupOperator" });
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
+};
+
 exports.checkRightsAndAddGroup = checkRightsAndAddGroup;
+exports.checkRightsAndAddGroupOperators = checkRightsAndAddGroupOperators;
