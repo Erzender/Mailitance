@@ -2,12 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
-const accountService = require("./service/account");
 
 require("dotenv").config();
 const data = require("./_model");
 const db = require("./_data");
 const accountCnt = require("./controller/account");
+const groupCnt = require("./controller/group");
+const accountService = require("./service/account");
+
 const app = express();
 
 app.use(cors());
@@ -31,6 +33,7 @@ api.use(accountCnt.checkToken);
 api.get("/", (req, res) => res.send("SUCCESS"));
 api.patch("/account", accountCnt.update);
 api.post("/account", accountCnt.addAccount);
+api.post("/group", groupCnt.addGroup);
 
 app.use("/api", api);
 
