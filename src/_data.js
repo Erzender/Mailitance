@@ -3,11 +3,10 @@ require("dotenv").config();
 
 let options = {};
 if (process.env.ENV !== "dev") {
-  options["ssl"] = {
-    require: true,
-    rejectUnauthorized: false,
+  options["ssl"] = true;
+  options["dialectOptions"] = {
+    ssl: { require: true, rejectUnauthorized: false },
   };
-  options["dialectOptions"] = { ssl: true };
 }
 
 const sequelize = new Sequelize(process.env.MAILITANCE_DB, options);
