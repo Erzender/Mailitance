@@ -1,7 +1,12 @@
 const Sequelize = require("sequelize");
 require("dotenv").config();
 
-const sequelize = new Sequelize(process.env.MAILITANCE_DB);
+let options = {};
+if (process.env.ENV !== "dev") {
+  (options["ssl"] = true), (options["dialectOptions"] = { ssl: true });
+}
+
+const sequelize = new Sequelize(process.env.MAILITANCE_DB, options);
 
 //sequelize.query("PRAGMA case_sensitive_like=ON;");
 
