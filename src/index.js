@@ -38,12 +38,13 @@ api.post("/group", groupCnt.addGroup);
 api.post("/groupOperators", groupCnt.addGroupOperators);
 api.post("/groupMilitants", groupCnt.addGroupMilitants);
 api.post("/contacts", contactCnt.addContacts);
+api.delete("/contacts", contactCnt.removeContacts);
 
 app.use("/api", api);
 
 db.sequelize.sync().then(async () => {
   let ret = await accountService.init();
-  const port = process.env.PORT || 8081;
+  const port = process.env.PORT || 8080;
   console.log("listening on port " + port);
   app.listen(port);
 });
