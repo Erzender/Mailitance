@@ -64,4 +64,33 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
   return { error: false };
 };
 
+const checkRightsAndRemoveContacts = async (userId, contacts) => {
+  try {
+    if (!Array.isArray(contacts) || contacts.length === 0)
+      return { error: "missing_parameter" };
+    let isOperator = await accountService.checkOperator(userId);
+    if (isOperator.error) return { error: "forbidden" };
+    let toRemove = await data.Contact.findAll({
+      where: {
+        [Op.or]: {
+          email: {
+            [Op.in]: contacts.filter((elem) => elem !== null),
+          },
+          phone: {
+            [Op.in]: contacts.filter((elem) => elem !== null),
+          },
+        },
+      },
+    });
+    let count = toRemove.length;
+    toRemove.forEach(async (elem) => await elem.destroy());
+    return { error: false, deleted: count };
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
+};
+
 exports.checkRightsAndAddContacts = checkRightsAndAddContacts;
+exports.checkRightsAndRemoveContacts = checkRightsAndRemoveContacts;
