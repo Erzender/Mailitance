@@ -92,5 +92,39 @@ const checkRightsAndRemoveContacts = async (userId, contacts) => {
   return { error: false };
 };
 
+const checkRightsAndGetContacts = async (userId, groupId, param) => {
+  try {
+    if (!groupId) return { error: "missing_parameter" };
+
+    let user = await data.User.findByPk(userId);
+    if (!user) return { error: "unknown_user" };
+    let group = await data.Group.findByPk(groupId);
+    if (!group) return { error: "unknown_group" };
+    let isMilitant = await accountService.checkMilitant(userId, groupId);
+    if (isMilitant.error) return isMilitant;
+
+    let search = {};
+    Object.keys(param).forEach((key) => {
+      search[key] = { [Op.or]: { [Op.in]: param[key], [Op.eq]: null } };
+    });
+    let result = await data.Contact.findAll({
+      where: {
+        [Op.and]: search,
+      },
+    });
+    return {
+      error: false,
+      contacts: result
+        .filter((elem) => elem.dataValues.rgpdConsent)
+        .map((elem) => elem.dataValues),
+    };
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
+};
+
 exports.checkRightsAndAddContacts = checkRightsAndAddContacts;
 exports.checkRightsAndRemoveContacts = checkRightsAndRemoveContacts;
+exports.checkRightsAndGetContacts = checkRightsAndGetContacts;

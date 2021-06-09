@@ -13,7 +13,7 @@ Un opérateur peut ajouter un utilisateur | ✅
 Un opérateur peut ajouter un utilisateur à son groupe opératoire en tant que militant | ✅📐
 Un militant peut ajouter un contact à son groupe opératoire (unicité email => écraser si doublon en base) | ✅📐
 Un opérateur peut supprimer un contact de la base (sélection par email) | ✅📐
-Un opérateur peut accéder aux contacts de son groupe opératoire | 📚📐
+Un opérateur peut accéder aux contacts de son groupe opératoire | ✅📐
 ~ | 
 **Fonctionnalités essentielles (requises dans la mesure du possible)** | 
 Un militant peut ajouter un contact tout en étant hors ligne (les contacts ainsi enregistrés sont réellement transférés à la prochaine connexion) | 📚

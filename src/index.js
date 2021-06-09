@@ -39,6 +39,7 @@ api.post("/groupOperators", groupCnt.addGroupOperators);
 api.post("/groupMilitants", groupCnt.addGroupMilitants);
 api.post("/contacts", contactCnt.addContacts);
 api.delete("/contacts", contactCnt.removeContacts);
+api.get("/group/:groupId/contacts", contactCnt.getContacts);
 
 app.use("/api", api);
 
