@@ -24,5 +24,35 @@ const removeContacts = async (req, res, newt) => {
   return res.json({ success: true, deleted: ret.deleted });
 };
 
+const getContacts = async (req, res, next) => {
+  let param = {
+    age: req.query.age,
+    district: req.query.district,
+    voteSector: req.query.voteSector,
+    topics: req.query.topics,
+    voteRegistration: req.query.voteRegistration,
+    help: req.query.help,
+    appreciation: req.query.appreciation,
+    status: req.query.status,
+  };
+  Object.keys(param).forEach((key) => {
+    if (param[key] === undefined) {
+      delete param[key];
+    } else {
+      param[key] = Array.isArray(param[key]) ? param[key] : [param[key]];
+    }
+  });
+  let ret = await contactService.checkRightsAndGetContacts(
+    req.decoded.id,
+    req.params.groupId,
+    param
+  );
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json(ret);
+};
+
 exports.addContacts = addContacts;
 exports.removeContacts = removeContacts;
+exports.getContacts = getContacts;
