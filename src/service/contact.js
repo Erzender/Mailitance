@@ -2,6 +2,7 @@ const Op = require("sequelize").Op;
 
 const data = require("../_model");
 const accountService = require("./account");
+const groupService = require("./group");
 
 const CONTACT_AGES = [16, 26, 36, 51, 62];
 const CONTACT_STATUSES = [
@@ -100,16 +101,22 @@ const checkRightsAndGetContacts = async (userId, groupId, param) => {
     if (!user) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
     if (!group) return { error: "unknown_group" };
-    let isMilitant = await accountService.checkMilitant(userId, groupId);
+    let isMilitant = await accountService.checkOperator(userId, groupId);
     if (isMilitant.error) return isMilitant;
 
+    let groups = await groupService.getSubGroupsIds(group);
     let search = {};
     Object.keys(param).forEach((key) => {
-      search[key] = { [Op.or]: { [Op.in]: param[key], [Op.eq]: null } };
+      search[key] = {
+        [Op.or]: { [Op.in]: param[key], [Op.eq]: null },
+      };
     });
     let result = await data.Contact.findAll({
       where: {
-        [Op.and]: search,
+        [Op.and]: {
+          groupId: { [Op.in]: groups },
+          ...search,
+        },
       },
     });
     return {

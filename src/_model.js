@@ -13,6 +13,7 @@ const User = db.sequelize.define("user", {
 
 const Group = db.sequelize.define("group", {
   title: Sequelize.STRING,
+  level: Sequelize.INTEGER,
 });
 
 const Contact = db.sequelize.define("contact", {
