@@ -17,8 +17,8 @@ Un opérateur peut accéder aux contacts de son groupe opératoire | ✅📐
 ~ | 
 **Fonctionnalités essentielles (requises dans la mesure du possible)** | 
 Un militant peut ajouter un contact tout en étant hors ligne (les contacts ainsi enregistrés sont réellement transférés à la prochaine connexion) | 📚
-Un administrateur peut créer une arborescence entre les groupes opératoires (les contacts des groupes opératoires enfants sont affiliés au groupe opératoire parent) | 📚
-Un opérateur peut sélectionner des contacts de son groupe opératoire selon un panel de paramètres (tranche d'âge, intérêts, est inscrit, besoins, niveau d'engagement politique ...) | 📚
+Un administrateur peut créer une arborescence entre les groupes opératoires (les contacts des groupes opératoires enfants sont affiliés au groupe opératoire parent) | ✅
+Un opérateur peut sélectionner des contacts de son groupe opératoire selon un panel de paramètres (tranche d'âge, intérêts, est inscrit, besoins, niveau d'engagement politique ...) | ✅
 Un opérateur peut copier une liste préformattée d'emails des contacts séléctionnés de son groupe opératoire | 📚
 ~ | 
 **Fonctionnalités de confort (à faire en complément)** | 
