@@ -9,11 +9,16 @@ const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
   if (!groupTitle) return { error: "missing_parameter" };
   try {
     let parentGroup = null;
+    let level = 0;
     if (parentGroupId) {
       parentGroup = await data.Group.findByPk(parentGroupId);
       if (!parentGroup) return { error: "unknown_group" };
+      level = parentGroup.dataValues.level + 1;
     }
-    group = await data.Group.create({ title: groupTitle });
+    group = await data.Group.create({
+      title: groupTitle,
+      level,
+    });
     if (parentGroup) {
       await group.setParentGroup(parentGroup);
     }
@@ -64,6 +69,21 @@ const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
   return { error: false };
 };
 
+const getSubGroupsIds = async (group) => {
+  let groups = [group.dataValues.id];
+  let level = group.dataValues.level;
+  let newGroups = [null];
+  while (newGroups.length > 0) {
+    level += 1;
+    newGroups = await data.Group.findAll({
+      where: { [Op.and]: { level, ParentGroupId: { [Op.in]: groups } } },
+    });
+    groups = groups.concat(newGroups.map((grp) => grp.dataValues.id));
+  }
+  return groups;
+};
+
 exports.checkRightsAndAddGroup = checkRightsAndAddGroup;
 exports.checkRightsAndAddGroupOperators = checkRightsAndAddGroupOperators;
 exports.checkRightsAndAddGroupMilitants = checkRightsAndAddGroupMilitants;
+exports.getSubGroupsIds = getSubGroupsIds;
