@@ -11,7 +11,7 @@ const Dashboard = ({ alerter }) => (
   <div style={styles.container}>
     <Navbar />
     <div
-      className={"alert d-flex align-items-center" + alerter.type}
+      className={"alert d-flex align-items-center " + alerter.type}
       role="alert"
     >
       {alerter.loader && (
@@ -27,7 +27,7 @@ const Dashboard = ({ alerter }) => (
 const mapStateToProps = (state) => ({
   alerter: {
     message: "Rien à signaler",
-    type: " alert-success",
+    type: "alert-success",
     loader: false,
   },
 });
