@@ -12,26 +12,26 @@ const Login = ({}) => (
       <b className="mt-2">MAILITANCE - le carnet d'adresses militant</b>
     </div>
     <form className="d-flex flex-column">
-      <div class="form-group">
+      <div className="form-group">
         <label for="username">Identifiant</label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           id="username"
           aria-describedby="usernameHelp"
           placeholder="Indiquer l'identifiant"
         />
       </div>
-      <div class="form-group">
+      <div className="form-group">
         <label for="password">Mot de passe</label>
         <input
           type="password"
-          class="form-control"
+          className="form-control"
           id="password"
           placeholder="Mot de passe"
         />
       </div>
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" className="btn btn-primary">
         Connexion
       </button>
     </form>

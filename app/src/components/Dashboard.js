@@ -10,7 +10,6 @@ const styles = {
 const Dashboard = ({}) => (
   <div style={styles.container}>
     <Navbar />
-    dashboard
   </div>
 );
 
