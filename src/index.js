@@ -24,6 +24,9 @@ app.get("/", (req, res) => {
 app.get("/build.js", (req, res) => {
   res.sendFile(__dirname + "/dist/build.js");
 });
+app.get("/images/:image", (req, res) => {
+  res.sendFile(__dirname + "/dist/images/" + req.params.image);
+});
 
 var api = express.Router();
 
