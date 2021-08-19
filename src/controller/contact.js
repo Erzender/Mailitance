@@ -32,7 +32,6 @@ const getContacts = async (req, res, next) => {
     topics: req.query.topics,
     voteRegistration: req.query.voteRegistration,
     help: req.query.help,
-    appreciation: req.query.appreciation,
     status: req.query.status,
   };
   Object.keys(param).forEach((key) => {

@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Navbar from "./Navbar";
+import Collect from "./Collect";
 
 const styles = {
   container: { height: "100%" },
 };
 
-const Dashboard = ({ alerter }) => (
+const Dashboard = ({ alerter, route }) => (
   <div style={styles.container}>
     <Navbar />
     <div
@@ -21,6 +22,7 @@ const Dashboard = ({ alerter }) => (
       )}
       {alerter.message}
     </div>
+    {route === "collect" && <Collect />}
   </div>
 );
 
@@ -30,6 +32,7 @@ const mapStateToProps = (state) => ({
     type: "alert-success",
     loader: false,
   },
+  route: Object.keys(state.nav)[0],
 });
 
 const mapDispatchToProps = (dispatch) => ({});

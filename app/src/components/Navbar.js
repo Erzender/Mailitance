@@ -3,6 +3,16 @@ import { connect } from "react-redux";
 
 import Logo from "../../assets/LOGO-NSP_VF-1.svg";
 import NavbarModal from "./Navbar_Modal";
+import NavItem from "./Navbar_Item";
+
+import {
+  NAV_COLLECT,
+  NAV_READ,
+  NAV_GROUP,
+  NAV_PROFILE,
+  NAV_ADMIN,
+  NAV_TITLES,
+} from "../const";
 
 const styles = {
   logo: { width: 70 },
@@ -37,31 +47,11 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
     >
       <ul className="navbar-nav mr-auto "></ul>
       <ul className="navbar-nav  my-2 my-lg-0">
-        <li className="nav-item active">
-          <a className="nav-link" href="#">
-            Collecter
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            Consulter
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            Gestion du groupe
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            Profil
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">
-            Admin
-          </a>
-        </li>
+        <NavItem value={NAV_COLLECT} />
+        <NavItem value={NAV_READ} />
+        <NavItem value={NAV_GROUP} />
+        <NavItem value={NAV_PROFILE} />
+        <NavItem value={NAV_ADMIN} />
       </ul>
     </div>
   </nav>
@@ -69,7 +59,6 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
 
 const mapStateToProps = (state) => ({
   isNavbarShown: state.navbar.mobileShow,
-  randomText: "surprise",
 });
 
 const mapDispatchToProps = (dispatch) => ({
