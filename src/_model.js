@@ -28,7 +28,6 @@ const Contact = db.sequelize.define("contact", {
   topics: Sequelize.TEXT,
   voteRegistration: Sequelize.BOOLEAN,
   help: { type: Sequelize.BOOLEAN, defaultValue: false },
-  appreciation: Sequelize.TEXT,
   status: Sequelize.INTEGER, // code => 0 => neutre, 1 => sympathisant, 2 => militant, 3 => organisateur
   rgpdConsent: { type: Sequelize.BOOLEAN, defaultValue: false },
 });

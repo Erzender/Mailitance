@@ -1,5 +1,8 @@
+import { NAV_COLLECT } from "../const";
+
 const initialState = {
   navbar: { mobileShow: false, modal: { open: false } },
+  nav: { [NAV_COLLECT]: {} },
 };
 
 const root = (state = initialState, action) => {
@@ -22,6 +25,11 @@ const root = (state = initialState, action) => {
       return {
         ...state,
         navbar: { ...state.navbar, mobileShow: !state.navbar.mobileShow },
+      };
+    case "NAVBAR_NAV_TO":
+      return {
+        ...state,
+        nav: action.route,
       };
     default:
       return state;
