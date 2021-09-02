@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 
 import Navbar from "./Navbar";
 
-const styles = {};
+const styles = { container: { maxWidth: 1200 } };
 
-const CollectForm = ({ alerter }) => (
-  <form className="p-3">
+const CollectForm = ({ alerter }) =>
+  <form className="p-3 mx-auto" style={styles.container}>
+    Aucun champ n'est requis.<br /><br /><br />
     <div className="form-group">
       <label htmlFor="lastname">Nom de famille</label>
       <input
@@ -132,11 +133,10 @@ const CollectForm = ({ alerter }) => (
     <button className="btn btn-primary mt-3" type="submit">
       Enregistrer le contact
     </button>
-  </form>
-);
+  </form>;
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectForm);

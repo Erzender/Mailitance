@@ -11,19 +11,20 @@ const styles = {
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0,
-  },
+    left: 0
+  }
 };
 
-const Root = ({}) => (
+const Root = ({ loggedIn }) =>
   <div style={styles.container} className="position-absolute">
-    {/* <Login /> */}
-    <Dashboard />
-  </div>
-);
+    {!loggedIn && <Login />}
+    {loggedIn && <Dashboard />}
+  </div>;
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({
+  loggedIn: state.token !== null
+});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);
