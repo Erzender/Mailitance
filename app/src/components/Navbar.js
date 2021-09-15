@@ -50,8 +50,8 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
         <NavItem value={NAV_COLLECT} />
         <NavItem value={NAV_READ} />
         <NavItem value={NAV_GROUP} />
-        <NavItem value={NAV_PROFILE} />
         <NavItem value={NAV_ADMIN} />
+        <NavItem value={NAV_PROFILE} />
       </ul>
     </div>
   </nav>

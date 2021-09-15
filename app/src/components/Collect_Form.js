@@ -5,9 +5,11 @@ import Navbar from "./Navbar";
 
 const styles = { container: { maxWidth: 1200 } };
 
-const CollectForm = ({ alerter }) =>
-  <form className="p-3 mx-auto" style={styles.container}>
-    Aucun champ n'est requis.<br /><br /><br />
+const CollectForm = ({ alerter, onSubmit }) =>
+  <form className="p-3 mx-auto" style={styles.container} onSubmit={onSubmit}>
+    Aucun champ n'est requis.<br />
+    <br />
+    <br />
     <div className="form-group">
       <label htmlFor="lastname">Nom de famille</label>
       <input
@@ -28,8 +30,8 @@ const CollectForm = ({ alerter }) =>
     </div>
     <div className="form-group">
       <label htmlFor="age">Age</label>
-      <select className="custom-select">
-        <option selected>Sélectionner une tranche d'âge</option>
+      <select className="custom-select" defaultValue={null}>
+        <option value={null}>Sélectionner une tranche d'âge</option>
         <option value="16">16 - 25</option>
         <option value="26">26 - 35</option>
         <option value="36">36 - 50</option>
@@ -111,8 +113,8 @@ const CollectForm = ({ alerter }) =>
     </div>
     <div className="form-group">
       <label htmlFor="status">Jugement sur la France Insoumise ?</label>
-      <select className="custom-select">
-        <option selected>Sélectionner un statut</option>
+      <select className="custom-select" defaultValue={null}>
+        <option value={null}>Sélectionner un statut</option>
         <option>Neutre</option>
         <option>Sympathisant</option>
         <option>Militant</option>
@@ -137,6 +139,11 @@ const CollectForm = ({ alerter }) =>
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  onSubmit: e => {
+    e.preventDefault();
+    console.log("submit");
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectForm);
