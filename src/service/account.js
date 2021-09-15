@@ -12,7 +12,7 @@ const addAccount = async (username, password, admin) => {
       password: hash,
       username,
       displayName: username,
-      admin: !!admin,
+      admin: !!admin
     });
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
@@ -24,7 +24,7 @@ const addAccount = async (username, password, admin) => {
   return { error: false, user };
 };
 
-const checkAdmin = async (userId) => {
+const checkAdmin = async userId => {
   try {
     let user = await data.User.findByPk(userId);
     if (!user.admin) {
@@ -43,7 +43,7 @@ const checkOperator = async (userId, groupId = null) => {
   if (
     groups.length === 0 ||
     (groupId !== null &&
-      !groups.map((group) => group.dataValues.id).includes(groupId))
+      !groups.map(group => group.dataValues.id).includes(groupId))
   ) {
     return checkAdmin(userId);
   }
@@ -56,7 +56,7 @@ const checkMilitant = async (userId, groupId = null) => {
   if (
     groups.length === 0 ||
     (groupId !== null &&
-      !groups.map((group) => group.dataValues.id).includes(groupId))
+      !groups.map(group => group.dataValues.id).includes(groupId))
   ) {
     return checkOperator(userId, groupId);
   }
@@ -95,7 +95,7 @@ const login = async (username, password) => {
 const init = async () => {
   try {
     let admin = await data.User.findOne({
-      where: { username: "admin" },
+      where: { username: "admin" }
     });
     if (!admin) {
       return await addAccount("admin", "admin", true);
@@ -152,6 +152,37 @@ const update = async (actor, newValues) => {
   return { error: false };
 };
 
+const get = async (actor, userId) => {
+  try {
+    let user = await data.User.findByPk(actor);
+    let targetUser = await data.User.findByPk(userId);
+
+    if (!user || !targetUser) {
+      return { error: "unknown_user" };
+    }
+    if (user.dataValues.id !== targetUser.dataValues.id && !user.admin) {
+      return { error: "forbidden" };
+    }
+
+    return {
+      id: targetUser.dataValues.id,
+      admin: targetUser.dataValues.admin,
+      username: targetUser.dataValues.username,
+      displayName: targetUser.dataValues.displayName,
+      operatingGroups: (await targetUser.getOperatingGroups()).map(
+        group => group.dataValues.id
+      ),
+      militantGroups: (await targetUser.getMilitantGroups()).map(
+        group => group.dataValues.id
+      )
+    };
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
+};
+
 exports.addAccount = addAccount;
 exports.login = login;
 exports.init = init;
@@ -160,3 +191,4 @@ exports.checkAdmin = checkAdmin;
 exports.checkOperator = checkOperator;
 exports.checkMilitant = checkMilitant;
 exports.checkRightsAndAddAccount = checkRightsAndAddAccount;
+exports.get = get;

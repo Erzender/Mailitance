@@ -37,6 +37,15 @@ const addGroupMilitants = async (req, res, next) => {
   return res.json({ success: true });
 };
 
+const getAll = async (req, res, next) => {
+  let ret = await groupService.getAll();
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true, groups: ret.groups });
+};
+
 exports.addGroup = addGroup;
 exports.addGroupOperators = addGroupOperators;
 exports.addGroupMilitants = addGroupMilitants;
+exports.getAll = getAll;
