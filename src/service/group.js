@@ -17,7 +17,7 @@ const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
     }
     group = await data.Group.create({
       title: groupTitle,
-      level,
+      level
     });
     if (parentGroup) {
       await group.setParentGroup(parentGroup);
@@ -36,7 +36,7 @@ const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
     return { error: "missing_parameter" };
   try {
     let users = await data.User.findAll({
-      where: { id: { [Op.in]: usersParam } },
+      where: { id: { [Op.in]: usersParam } }
     });
     if (users.length < usersParam.length) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
@@ -56,7 +56,7 @@ const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
     return { error: "missing_parameter" };
   try {
     let users = await data.User.findAll({
-      where: { id: { [Op.in]: usersParam } },
+      where: { id: { [Op.in]: usersParam } }
     });
     if (users.length < usersParam.length) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
@@ -69,21 +69,41 @@ const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
   return { error: false };
 };
 
-const getSubGroupsIds = async (group) => {
+const getSubGroupsIds = async group => {
   let groups = [group.dataValues.id];
   let level = group.dataValues.level;
   let newGroups = [null];
   while (newGroups.length > 0) {
     level += 1;
     newGroups = await data.Group.findAll({
-      where: { [Op.and]: { level, ParentGroupId: { [Op.in]: groups } } },
+      where: { [Op.and]: { level, ParentGroupId: { [Op.in]: groups } } }
     });
-    groups = groups.concat(newGroups.map((grp) => grp.dataValues.id));
+    groups = groups.concat(newGroups.map(grp => grp.dataValues.id));
   }
   return groups;
+};
+
+const getAll = async () => {
+  try {
+    let groups = await data.Group.findAll();
+    console.log(groups);
+    return {
+      groups: groups.map(group => ({
+        id: group.dataValues.id,
+        title: group.dataValues.title,
+        level: group.dataValues.level,
+        parent: group.dataValues.ParentGroupId
+      }))
+    };
+  } catch (err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+  return { error: false };
 };
 
 exports.checkRightsAndAddGroup = checkRightsAndAddGroup;
 exports.checkRightsAndAddGroupOperators = checkRightsAndAddGroupOperators;
 exports.checkRightsAndAddGroupMilitants = checkRightsAndAddGroupMilitants;
 exports.getSubGroupsIds = getSubGroupsIds;
+exports.getAll = getAll;
