@@ -16,8 +16,8 @@ const Login = ({ onSubmit, loading, error }) =>
       <b className="mt-2">MAILITANCE - le carnet d'adresses militant</b>
     </div>
     {loading &&
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
       </div>}
     {!loading &&
       <form className="d-flex flex-column" onSubmit={onSubmit}>
@@ -44,7 +44,7 @@ const Login = ({ onSubmit, loading, error }) =>
         </button>
       </form>}
     {error &&
-      <div class="alert alert-danger mt-3" role="alert">
+      <div className="alert alert-danger mt-3" role="alert">
         Erreur de connexion
       </div>}
   </div>;

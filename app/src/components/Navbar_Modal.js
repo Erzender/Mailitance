@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { normalizeGroups } from "../utils/normalization";
 
 const styles = {};
 
-const NavbarModal = ({ isOpen, close }) => (
+const NavbarModal = ({ isOpen, close }) =>
   <div
     className={
       isOpen ? "modal fade overflow-auto show" : "modal fade overflow-auto"
@@ -49,15 +50,15 @@ const NavbarModal = ({ isOpen, close }) => (
         </div>
       </div>
     </div>
-  </div>
-);
+  </div>;
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isOpen: state.navbar.modal.open,
+  groupTree: normalizeGroups(state.groups)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  close: () => dispatch({ type: "NAVBAR_TOGGLE_MODAL" }),
+const mapDispatchToProps = dispatch => ({
+  close: () => dispatch({ type: "NAVBAR_TOGGLE_MODAL" })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavbarModal);

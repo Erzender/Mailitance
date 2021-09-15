@@ -89,7 +89,7 @@ const login = async (username, password) => {
   if (!compare) {
     return { error: "wrong_password" };
   }
-  return { error: false, user };
+  return { error: false, userId: user.dataValues.id };
 };
 
 const init = async () => {
