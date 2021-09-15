@@ -86,7 +86,6 @@ const getSubGroupsIds = async group => {
 const getAll = async () => {
   try {
     let groups = await data.Group.findAll();
-    console.log(groups);
     return {
       groups: groups.map(group => ({
         id: group.dataValues.id,
