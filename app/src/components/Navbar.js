@@ -19,7 +19,7 @@ const styles = {
   logo: { width: 70 }
 };
 
-const Navbar = ({ openModal, showNavbar, isNavbarShown }) =>
+const Navbar = ({ openModal, showNavbar, isNavbarShown, selectedGroup }) =>
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <img
       className="navbar-brand"
@@ -35,7 +35,7 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) =>
       role="button"
       onClick={openModal}
     >
-      Ile de France
+      {selectedGroup}
     </div>
     <NavbarModal />
     <div
@@ -59,7 +59,10 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) =>
   </nav>;
 
 const mapStateToProps = state => ({
-  isNavbarShown: state.navbar.mobileShow
+  isNavbarShown: state.navbar.mobileShow,
+  selectedGroup: state.selectedGroup
+    ? state.groups.filter(group => group.id === state.selectedGroup)[0].title
+    : "Sélectionner un groupe"
 });
 
 const mapDispatchToProps = dispatch => ({

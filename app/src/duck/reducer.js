@@ -3,6 +3,7 @@ import { NAV_COLLECT } from "../const";
 const token = localStorage.getItem("token");
 const groups = JSON.parse(localStorage.getItem("groups"));
 const user = JSON.parse(localStorage.getItem("user"));
+const selectedGroup = JSON.parse(localStorage.getItem("selectedGroup"));
 
 const initialState = {
   initialized: false,
@@ -12,7 +13,8 @@ const initialState = {
   navbar: { mobileShow: false, modal: { open: false } },
   nav: { [NAV_COLLECT]: {} },
   groups: !!groups ? groups : null,
-  user: !!user ? user : null
+  user: !!user ? user : null,
+  selectedGroup: !!selectedGroup ? selectedGroup : null
 };
 
 const root = (state = initialState, action) => {
@@ -21,7 +23,14 @@ const root = (state = initialState, action) => {
       localStorage.removeItem("token");
       localStorage.removeItem("groups");
       localStorage.removeItem("user");
-      return { ...initialState, token: null, groups: null, user: null };
+      localStorage.removeItem("selectedGroup");
+      return {
+        ...initialState,
+        token: null,
+        groups: null,
+        user: null,
+        selectedGroup: null
+      };
     case "LOGIN_REQUEST":
       return { ...state, loginFetching: true };
     case "LOGIN_RESOLVE":
@@ -74,6 +83,19 @@ const root = (state = initialState, action) => {
       return {
         ...state,
         nav: action.route
+      };
+    case "NAVBAR_GROUP_CLICKED":
+      localStorage.setItem("selectedGroup", action.group);
+      return {
+        ...state,
+        selectedGroup: action.group,
+        navbar: {
+          ...state.navbar,
+          modal: {
+            ...state.navbar.modal,
+            open: false
+          }
+        }
       };
     default:
       return state;
