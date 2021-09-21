@@ -12,13 +12,14 @@ import {
   NAV_PROFILE,
   NAV_ADMIN,
   NAV_TITLES,
+  NAV_QUIT
 } from "../const";
 
 const styles = {
-  logo: { width: 70 },
+  logo: { width: 70 }
 };
 
-const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
+const Navbar = ({ openModal, showNavbar, isNavbarShown, selectedGroup }) =>
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <img
       className="navbar-brand"
@@ -34,7 +35,7 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
       role="button"
       onClick={openModal}
     >
-      Ile de France
+      {selectedGroup}
     </div>
     <NavbarModal />
     <div
@@ -45,25 +46,28 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown }) => (
       }
       id="navbarSupportedContent"
     >
-      <ul className="navbar-nav mr-auto "></ul>
+      <ul className="navbar-nav mr-auto " />
       <ul className="navbar-nav  my-2 my-lg-0">
         <NavItem value={NAV_COLLECT} />
         <NavItem value={NAV_READ} />
         <NavItem value={NAV_GROUP} />
-        <NavItem value={NAV_PROFILE} />
         <NavItem value={NAV_ADMIN} />
+        <NavItem value={NAV_PROFILE} />
+        <NavItem value={NAV_QUIT} />
       </ul>
     </div>
-  </nav>
-);
+  </nav>;
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isNavbarShown: state.navbar.mobileShow,
+  selectedGroup: state.selectedGroup
+    ? state.groups.filter(group => group.id === state.selectedGroup)[0].title
+    : "Sélectionner un groupe"
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   openModal: () => dispatch({ type: "NAVBAR_TOGGLE_MODAL" }),
-  showNavbar: () => dispatch({ type: "NAVBAR_MOBILE_TOGGLE" }),
+  showNavbar: () => dispatch({ type: "NAVBAR_MOBILE_TOGGLE" })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
