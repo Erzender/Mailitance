@@ -25,10 +25,14 @@ const login = async (req, res) => {
   if (ret.error) {
     return error.status(res, ret.error);
   }
-  var token = jwt.sign({ id: ret.user.dataValues.id }, req.app.get("secret"), {
-    expiresIn: 86400, // expires in 24 hours
+  var token = jwt.sign({ id: ret.userId }, req.app.get("secret"), {
+    expiresIn: 86400 // expires in 24 hours
   });
-  return res.json({ success: true, token: token });
+  return res.json({
+    success: true,
+    token: token,
+    userId: ret.userId
+  });
 };
 
 const update = async (req, res) => {
@@ -54,7 +58,16 @@ const addAccount = async (req, res) => {
   return res.json({ success: true, userId: ret.user.dataValues.id });
 };
 
+const get = async (req, res) => {
+  let ret = await accountService.get(req.decoded.id, req.params.accountId);
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true, user: ret });
+};
+
 exports.checkToken = checkToken;
 exports.login = login;
 exports.update = update;
 exports.addAccount = addAccount;
+exports.get = get;

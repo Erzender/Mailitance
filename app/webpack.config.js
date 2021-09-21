@@ -1,10 +1,11 @@
 const path = require("path");
 const HWP = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 module.exports = {
   entry: path.join(__dirname, "/src/index.js"),
   output: {
     filename: "build.js",
-    path: path.join(__dirname, "/../src/dist"),
+    path: path.join(__dirname, "/../src/dist")
   },
   module: {
     rules: [
@@ -14,27 +15,30 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "images/[hash]-[name].[ext]",
-            },
-          },
-        ],
+              name: "images/[hash]-[name].[ext]"
+            }
+          }
+        ]
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: "babel-loader"
       },
 
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
+        use: ["style-loader", "css-loader"]
+      }
+    ]
   },
-  plugins: [new HWP({ template: path.join(__dirname, "/src/index.html") })],
+  plugins: [
+    new Dotenv(),
+    new HWP({ template: path.join(__dirname, "/src/index.html") })
+  ],
   devServer: {
     historyApiFallback: {
-      index: "./src/index.html",
-    },
-  },
+      index: "./src/index.html"
+    }
+  }
 };

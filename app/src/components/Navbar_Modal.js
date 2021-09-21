@@ -1,9 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
+import { normalizeGroups } from "../utils/normalization";
 
 const styles = {};
 
-const NavbarModal = ({ isOpen, close }) => (
+const recDisplayGroups = (node, onClick, idx) =>
+  <div key={node.level + "grp" + idx} className="ml-3 border-left">
+    ˫{" "}
+    <a
+      className={node.selected ? "text-secondary" : undefined}
+      onClick={e => onClick(e, node.id, node.accessible)}
+      href={node.accessible ? "#" : undefined}
+    >
+      {node.title}
+    </a>
+    <br />
+    {node.children &&
+      node.children.map((elem, idx2) => recDisplayGroups(elem, onClick, idx2))}
+  </div>;
+
+const NavbarModal = ({ isOpen, close, groupTree, onClick }) =>
   <div
     className={
       isOpen ? "modal fade overflow-auto show" : "modal fade overflow-auto"
@@ -28,18 +44,7 @@ const NavbarModal = ({ isOpen, close }) => (
         </div>
         <div className="modal-body d-flex flex-column">
           <div>
-            <a href="#">test</a>
-            <div className="ml-3 border-left">
-              ˫ <a href="#">test</a>
-              <br />˫{" "}
-              <a href="#" className="text-secondary">
-                Ile de France
-              </a>
-              <div className="ml-3 border-left">
-                ˫ <a href="#">test</a>
-                <br />˫ <a href="#">test</a>
-              </div>
-            </div>
+            {groupTree.map((elem, idx) => recDisplayGroups(elem, onClick, idx))}
           </div>
         </div>
         <div className="modal-footer">
@@ -49,15 +54,27 @@ const NavbarModal = ({ isOpen, close }) => (
         </div>
       </div>
     </div>
-  </div>
-);
+  </div>;
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isOpen: state.navbar.modal.open,
+  groupTree: normalizeGroups(
+    state.groups,
+    state.user.operatingGroups,
+    state.user.militantGroups,
+    state.selectedGroup,
+    state.user.admin
+  )
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   close: () => dispatch({ type: "NAVBAR_TOGGLE_MODAL" }),
+  onClick: (e, group, accessible) => {
+    e.preventDefault();
+    if (accessible) {
+      dispatch({ type: "NAVBAR_GROUP_CLICKED", group });
+    }
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavbarModal);
