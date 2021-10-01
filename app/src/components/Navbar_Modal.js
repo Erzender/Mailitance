@@ -58,13 +58,16 @@ const NavbarModal = ({ isOpen, close, groupTree, onClick }) =>
 
 const mapStateToProps = state => ({
   isOpen: state.navbar.modal.open,
-  groupTree: normalizeGroups(
-    state.groups,
-    state.user.operatingGroups,
-    state.user.militantGroups,
-    state.selectedGroup,
-    state.user.admin
-  )
+  groupTree:
+    state.user && state.groups
+      ? normalizeGroups(
+          state.groups,
+          state.user.operatingGroups,
+          state.user.militantGroups,
+          state.selectedGroup,
+          state.user.admin
+        )
+      : []
 });
 
 const mapDispatchToProps = dispatch => ({

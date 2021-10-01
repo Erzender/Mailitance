@@ -58,12 +58,18 @@ const Navbar = ({ openModal, showNavbar, isNavbarShown, selectedGroup }) =>
     </div>
   </nav>;
 
-const mapStateToProps = state => ({
-  isNavbarShown: state.navbar.mobileShow,
-  selectedGroup: state.selectedGroup
-    ? state.groups.filter(group => group.id === state.selectedGroup)[0].title
-    : "Sélectionner un groupe"
-});
+const mapStateToProps = state => {
+  let groups = state.groups
+    ? state.groups.filter(group => group.id === state.selectedGroup)
+    : [];
+  return {
+    isNavbarShown: state.navbar.mobileShow,
+    selectedGroup:
+      state.selectedGroup && groups.length
+        ? groups[0].title
+        : "Sélectionner un groupe"
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   openModal: () => dispatch({ type: "NAVBAR_TOGGLE_MODAL" }),

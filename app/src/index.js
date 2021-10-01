@@ -8,8 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import root from "./duck/reducer";
 import Root from "./components/Root";
 
-console.log(process.env.SERVER);
-
 const composed = window.__REDUX_DEVTOOLS_EXTENSION__
   ? compose(
       applyMiddleware(thunkMiddleware),

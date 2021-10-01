@@ -1,29 +1,28 @@
 import { NAV_COLLECT } from "../const";
 
-const token = localStorage.getItem("token");
-const groups = JSON.parse(localStorage.getItem("groups"));
-const user = JSON.parse(localStorage.getItem("user"));
-const selectedGroup = JSON.parse(localStorage.getItem("selectedGroup"));
+let storage = localStorage.getItem("app");
+if (storage) {
+  storage = JSON.parse(storage);
+} else {
+  storage = {};
+}
 
 const initialState = {
   initialized: false,
-  token: !!token ? token : null,
+  token: !!storage.token ? storage.token : null,
   loginError: null,
   loginFetching: false,
   navbar: { mobileShow: false, modal: { open: false } },
   nav: { [NAV_COLLECT]: {} },
-  groups: !!groups ? groups : null,
-  user: !!user ? user : null,
-  selectedGroup: !!selectedGroup ? selectedGroup : null
+  groups: !!storage.groups ? storage.groups : null,
+  user: !!storage.user ? storage.user : null,
+  selectedGroup: !!storage.selectedGroup ? storage.selectedGroup : null
 };
 
 const root = (state = initialState, action) => {
   switch (action.type) {
     case "LOGOUT":
-      localStorage.removeItem("token");
-      localStorage.removeItem("groups");
-      localStorage.removeItem("user");
-      localStorage.removeItem("selectedGroup");
+      localStorage.removeItem("app");
       return {
         ...initialState,
         token: null,
@@ -35,9 +34,13 @@ const root = (state = initialState, action) => {
       return { ...state, loginFetching: true };
     case "LOGIN_RESOLVE":
       if (action.res.success) {
-        localStorage.setItem("token", action.res.token);
-        localStorage.setItem("groups", JSON.stringify(action.res.groups));
-        localStorage.setItem("user", JSON.stringify(action.res.user));
+        storage = {
+          ...storage,
+          token: action.res.token,
+          groups: action.res.groups,
+          user: action.res.user
+        };
+        localStorage.setItem("app", JSON.stringify(storage));
       }
       return {
         ...state,
@@ -51,7 +54,8 @@ const root = (state = initialState, action) => {
       return { ...state, loginFetching: true };
     case "INIT_RESOLVE":
       if (action.res.success) {
-        localStorage.setItem("groups", JSON.stringify(action.res.groups));
+        storage = { ...storage, groups: action.res.groups };
+        localStorage.setItem("app", JSON.stringify(storage));
       }
       return {
         ...state,
@@ -85,7 +89,8 @@ const root = (state = initialState, action) => {
         nav: action.route
       };
     case "NAVBAR_GROUP_CLICKED":
-      localStorage.setItem("selectedGroup", action.group);
+      storage = { ...storage, selectedGroup: action.group };
+      localStorage.setItem("app", JSON.stringify(storage));
       return {
         ...state,
         selectedGroup: action.group,
