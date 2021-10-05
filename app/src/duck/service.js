@@ -31,3 +31,13 @@ export const fetchUser = (token, userId) => {
     .then(res => res.json().then(json => json))
     .catch(err => ({ error: true, err }));
 };
+
+export const postContacts = (token, group, contacts) => {
+  return fetch(process.env.SERVER + "/api/contacts", {
+    method: "POST",
+    headers: { "x-access-token": token, "Content-Type": "application/JSON" },
+    body: JSON.stringify({ contacts, group })
+  })
+    .then(res => res.json().then(json => json))
+    .catch(err => ({ error: true, err }));
+};

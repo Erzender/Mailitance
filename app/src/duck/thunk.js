@@ -1,4 +1,4 @@
-import { fetchLogin, fetchGroups, fetchUser } from "./service";
+import { fetchLogin, fetchGroups, fetchUser, postContacts } from "./service";
 
 export const login = (username, password) => dispatch => {
   dispatch({ type: "LOGIN_REQUEST" });
@@ -16,15 +16,6 @@ export const login = (username, password) => dispatch => {
   });
 };
 
-// export const init = token => dispatch => {
-//   if (token) {
-//     dispatch("INIT_REQUEST");
-//     fetchGroups(token).then(res => {
-//       dispatch({ type: "INIT_RESOLVE", res });
-//     });
-//   }
-// };
-
 export const init = token => dispatch => {
   if (token) {
     dispatch({ type: "INIT_REQUEST" });
@@ -33,4 +24,10 @@ export const init = token => dispatch => {
       dispatch({ type: "INIT_RESOLVE", res });
     });
   }
+};
+
+export const saveContact = (fields, group, token) => dispatch => {
+  postContacts(token, group, [fields]).then(res => {
+    console.log(res);
+  });
 };

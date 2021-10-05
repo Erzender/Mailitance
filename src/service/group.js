@@ -6,7 +6,7 @@ const checkRightsAndAddGroup = async (actor, groupTitle, parentGroupId) => {
   let isAdmin = await accountService.checkAdmin(actor);
   let group = null;
   if (isAdmin.error) return isAdmin;
-  if (!groupTitle) return { error: "missing_parameter" };
+  if (!groupTitle) return { error: "missing_parameters" };
   try {
     let parentGroup = null;
     let level = 0;
@@ -33,7 +33,7 @@ const checkRightsAndAddGroupOperators = async (actor, groupId, usersParam) => {
   let isAdmin = await accountService.checkAdmin(actor);
   if (isAdmin.error) return isAdmin;
   if (!groupId || !Array.isArray(usersParam) || usersParam.length === 0)
-    return { error: "missing_parameter" };
+    return { error: "missing_parameters" };
   try {
     let users = await data.User.findAll({
       where: { id: { [Op.in]: usersParam } }
@@ -53,7 +53,7 @@ const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
   let isOperator = await accountService.checkOperator(actor, groupId);
   if (isOperator.error) return isOperator;
   if (!groupId || !Array.isArray(usersParam) || usersParam.length === 0)
-    return { error: "missing_parameter" };
+    return { error: "missing_parameters" };
   try {
     let users = await data.User.findAll({
       where: { id: { [Op.in]: usersParam } }

@@ -3,7 +3,7 @@ const data = require("../_model");
 
 const addAccount = async (username, password, admin) => {
   if (!password || !username) {
-    return { error: "missing_parameter" };
+    return { error: "missing_parameters" };
   }
   let user = null;
   try {
@@ -74,7 +74,7 @@ const checkRightsAndAddAccount = async (userId, username, password) => {
 
 const login = async (username, password) => {
   if (!username || !password) {
-    return { error: "missing_parameter" };
+    return { error: "missing_parameters" };
   }
   try {
     var user = await data.User.findOne({ where: { username } });

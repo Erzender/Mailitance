@@ -9,14 +9,14 @@ const CONTACT_STATUSES = [
   0, // neutre
   1, // sympathisant
   2, // militant
-  3, // organisateur
+  3 // organisateur
 ];
 
 const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
   try {
     if (!groupId || !Array.isArray(contacts) || contacts.length === 0)
-      return { error: "missing_parameter" };
-    let invalidContacts = contacts.filter((contact) => {
+      return { error: "missing_parameters" };
+    let invalidContacts = contacts.filter(contact => {
       if (!contact.email && !contact.phone) return true;
       if (contact.age && !CONTACT_AGES.includes(contact.age)) return true;
       if (contact.status && !CONTACT_STATUSES.includes(contact.status))
@@ -39,22 +39,22 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
         [Op.or]: {
           email: {
             [Op.in]: contacts
-              .map((contact) => contact.email)
-              .filter((elem) => elem !== null),
+              .map(contact => contact.email)
+              .filter(elem => elem !== null)
           },
           phone: {
             [Op.in]: contacts
-              .map((contact) => contact.phone)
-              .filter((elem) => elem !== null),
-          },
-        },
-      },
+              .map(contact => contact.phone)
+              .filter(elem => elem !== null)
+          }
+        }
+      }
     });
 
     for (let contactParam of contacts) {
       let contact = await data.Contact.create({
         ...contactParam,
-        topics: JSON.stringify(contactParam.topics),
+        topics: JSON.stringify(contactParam.topics)
       });
       await contact.setGroup(group);
     }
@@ -68,23 +68,23 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
 const checkRightsAndRemoveContacts = async (userId, contacts) => {
   try {
     if (!Array.isArray(contacts) || contacts.length === 0)
-      return { error: "missing_parameter" };
+      return { error: "missing_parameters" };
     let isOperator = await accountService.checkOperator(userId);
     if (isOperator.error) return { error: "forbidden" };
     let toRemove = await data.Contact.findAll({
       where: {
         [Op.or]: {
           email: {
-            [Op.in]: contacts.filter((elem) => elem !== null),
+            [Op.in]: contacts.filter(elem => elem !== null)
           },
           phone: {
-            [Op.in]: contacts.filter((elem) => elem !== null),
-          },
-        },
-      },
+            [Op.in]: contacts.filter(elem => elem !== null)
+          }
+        }
+      }
     });
     let count = toRemove.length;
-    toRemove.forEach(async (elem) => await elem.destroy());
+    toRemove.forEach(async elem => await elem.destroy());
     return { error: false, deleted: count };
   } catch (err) {
     console.error(err);
@@ -95,7 +95,7 @@ const checkRightsAndRemoveContacts = async (userId, contacts) => {
 
 const checkRightsAndGetContacts = async (userId, groupId, param) => {
   try {
-    if (!groupId) return { error: "missing_parameter" };
+    if (!groupId) return { error: "missing_parameters" };
 
     let user = await data.User.findByPk(userId);
     if (!user) return { error: "unknown_user" };
@@ -106,24 +106,24 @@ const checkRightsAndGetContacts = async (userId, groupId, param) => {
 
     let groups = await groupService.getSubGroupsIds(group);
     let search = {};
-    Object.keys(param).forEach((key) => {
+    Object.keys(param).forEach(key => {
       search[key] = {
-        [Op.or]: { [Op.in]: param[key], [Op.eq]: null },
+        [Op.or]: { [Op.in]: param[key], [Op.eq]: null }
       };
     });
     let result = await data.Contact.findAll({
       where: {
         [Op.and]: {
           groupId: { [Op.in]: groups },
-          ...search,
-        },
-      },
+          ...search
+        }
+      }
     });
     return {
       error: false,
       contacts: result
-        .filter((elem) => elem.dataValues.rgpdConsent)
-        .map((elem) => elem.dataValues),
+        .filter(elem => elem.dataValues.rgpdConsent)
+        .map(elem => elem.dataValues)
     };
   } catch (err) {
     console.error(err);

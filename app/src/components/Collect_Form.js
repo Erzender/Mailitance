@@ -1,12 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
+import $ from "jquery";
 
+import { saveContact } from "../duck/thunk";
 import Navbar from "./Navbar";
 
 const styles = { container: { maxWidth: 1200 } };
 
-const CollectForm = ({ alerter, onSubmit }) =>
-  <form className="p-3 mx-auto" style={styles.container} onSubmit={onSubmit}>
+const CollectForm = ({ onSubmit, token, group }) =>
+  <form
+    id="contactForm"
+    className="p-3 mx-auto"
+    style={styles.container}
+    onSubmit={e => onSubmit(e, token, group)}
+  >
     Aucun champ n'est requis.<br />
     <br />
     <br />
@@ -30,8 +37,8 @@ const CollectForm = ({ alerter, onSubmit }) =>
     </div>
     <div className="form-group">
       <label htmlFor="age">Age</label>
-      <select className="custom-select" defaultValue={null}>
-        <option value={null}>Sélectionner une tranche d'âge</option>
+      <select id="age" className="custom-select" defaultValue={null}>
+        <option value={null}></option>
         <option value="16">16 - 25</option>
         <option value="26">26 - 35</option>
         <option value="36">36 - 50</option>
@@ -86,7 +93,7 @@ const CollectForm = ({ alerter, onSubmit }) =>
     </div>
     <div className="form-group">
       <label htmlFor="topics">Sujets d'intérêt</label>
-      <select className="custom-select" multiple>
+      <select id="topics" className="custom-select" multiple>
         <option>Ecologie</option>
         <option>Sortie du nucléaire</option>
         <option>Acquis sociaux</option>
@@ -113,8 +120,8 @@ const CollectForm = ({ alerter, onSubmit }) =>
     </div>
     <div className="form-group">
       <label htmlFor="status">Jugement sur la France Insoumise ?</label>
-      <select className="custom-select" defaultValue={null}>
-        <option value={null}>Sélectionner un statut</option>
+      <select id="status" className="custom-select" defaultValue={null}>
+        <option value={null}></option>
         <option>Neutre</option>
         <option>Sympathisant</option>
         <option>Militant</option>
@@ -137,12 +144,36 @@ const CollectForm = ({ alerter, onSubmit }) =>
     </button>
   </form>;
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  token: state.token,
+  group: state.selectedGroup
+});
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: e => {
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSubmit: (e, token, group) => {
     e.preventDefault();
-    console.log("submit");
+    let fields = {};
+    Object.keys(e.target).forEach(key => {
+      let item = e.target[key];
+      if (
+        item.id &&
+        item.id.length > 0 &&
+        item.value &&
+        item.value.length > 0
+      ) {
+        if (item.type == "checkbox") {
+          if (item.checked) {
+            fields[item.id] = true;
+          }
+        } else {
+          fields[item.id] = item.value;
+        }
+      }
+    });
+    fields.topics = Object.values(
+      document.getElementById("topics").selectedOptions
+    ).map(opt => opt.value);
+    dispatch(saveContact(fields, group, token));
   }
 });
 
