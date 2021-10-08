@@ -18,6 +18,7 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
       return { error: "missing_parameters" };
     let invalidContacts = contacts.filter(contact => {
       if (!contact.email && !contact.phone) return true;
+      if (!contact.rgpdConsent) return true;
       if (contact.age && !CONTACT_AGES.includes(contact.age)) return true;
       if (contact.status && !CONTACT_STATUSES.includes(contact.status))
         return true;
@@ -122,8 +123,10 @@ const checkRightsAndGetContacts = async (userId, groupId, param) => {
     return {
       error: false,
       contacts: result
-        .filter(elem => elem.dataValues.rgpdConsent)
-        .map(elem => elem.dataValues)
+        .map(elem => ({
+          ...elem.dataValues,
+          topics: JSON.parse(elem.dataValues.topics)
+        }))
     };
   } catch (err) {
     console.error(err);

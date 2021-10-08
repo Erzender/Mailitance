@@ -14,7 +14,7 @@ const CollectForm = ({ onSubmit, token, group }) =>
     style={styles.container}
     onSubmit={e => onSubmit(e, token, group)}
   >
-    Aucun champ n'est requis.<br />
+    * : Champs requis.<br />
     <br />
     <br />
     <div className="form-group">
@@ -74,7 +74,7 @@ const CollectForm = ({ onSubmit, token, group }) =>
       />
     </div>
     <div className="form-group">
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">Email*</label>
       <input
         type="email"
         className="form-control"
@@ -136,7 +136,7 @@ const CollectForm = ({ onSubmit, token, group }) =>
         (RGPD) et consent à ce que les données recueillies dans ce formulaire
         soient conservées et utilisées dans le cadre strict de la communication
         des groupes militants de la France Insoumise, dans la limite de 2 ans
-        sauf si demande anticipée de suppression de ces dernières.
+        sauf si demande anticipée de suppression de ces dernières.*
       </label>
     </div>
     <button className="btn btn-primary mt-3" type="submit">
