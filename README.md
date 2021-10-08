@@ -1,6 +1,6 @@
 # [En développement] MAILITANCE
 
-Mailitance est un système de carnet d'adresses paramétrable destiné aux groupes militants de la France Insoumise et de la campagne https://noussommespour.fr/ , dont l'objectif est de favoriser la communication d'une information pertinente depuis ces mêmes groupes d'action vers les sympathisants dont les militants seraient amenés à recueillir le contact sur le terrain.
+Mailitance est un système de carnet d'adresses paramétrable destiné aux groupes militants de la France Insoumise et de la campagne https://melenchon2022.fr/ , dont l'objectif est de favoriser la communication d'une information pertinente depuis ces mêmes groupes d'action vers les sympathisants dont les militants seraient amenés à recueillir le contact sur le terrain.
 
 ## Exigences
 Le système conduit intrinsèquement à l'hébergement de données sensibles, son fonctionnement et son pilotage doivent donc répondre à 2 exigences :
@@ -19,11 +19,11 @@ Le système conduit intrinsèquement à l'hébergement de données sensibles, so
 
 ### Démarrage du service
 - `npm start`
-- L'application est accessible sur http://localhost:8081/
+- L'application est accessible sur http://localhost:8080/
 
 ### Travailler sur le front
 - `cd ./app ; npm start`
-- L'application recharge automatiquement sur http://localhost:8080/
+- L'application recharge automatiquement sur http://localhost:8080/ (8081 si occupé)
 
 ## [Spécifications🔗](/doc/Specifications.md)
 
