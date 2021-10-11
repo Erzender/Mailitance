@@ -1,0 +1,19 @@
+:root {
+    --color-bg: #191d21;
+    --color-text: #d3d3d3;
+    --color-text-highlight: #fff;
+    --color-alert: #dc3545;
+
+    --color-link: rgba(255,255,255,.5);
+    --color-link-hover: #fff;
+
+    --color-header-bg: #343a40;
+
+    --color-field-bg: black;
+    --color-field-border: #6c757d;
+    --color-field-focused-border: #fff;
+
+    --color-primary: #571aff;
+
+    --color-icon: #d3d3d3;
+}

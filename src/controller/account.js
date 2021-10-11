@@ -31,7 +31,8 @@ const login = async (req, res) => {
   return res.json({
     success: true,
     token: token,
-    userId: ret.userId
+    userId: ret.userId,
+    admin: ret.admin
   });
 };
 
@@ -50,7 +51,8 @@ const addAccount = async (req, res) => {
   let ret = await accountService.checkRightsAndAddAccount(
     req.decoded.id,
     req.body.username,
-    req.body.password
+    req.body.password,
+    req.body.admin
   );
   if (!!ret.error) {
     return error.status(res, ret.error);
@@ -66,8 +68,17 @@ const get = async (req, res) => {
   return res.json({ success: true, user: ret });
 };
 
+const getAll = async(req,res) => {
+  let ret = await accountService.getAll(req.decoded.id);
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json({ success: true, users: ret });
+}
+
 exports.checkToken = checkToken;
 exports.login = login;
 exports.update = update;
 exports.addAccount = addAccount;
 exports.get = get;
+exports.getAll = getAll;

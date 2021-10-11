@@ -10,7 +10,7 @@ const addContacts = async (req, res, next) => {
   if (!!ret.error) {
     return error.status(res, ret.error);
   }
-  return res.json({ success: true });
+  return res.json({ success: true, contacts: ret.contacts });
 };
 
 const removeContacts = async (req, res, newt) => {

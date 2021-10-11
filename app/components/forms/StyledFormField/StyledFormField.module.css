@@ -1,0 +1,49 @@
+.field {
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.field label {
+    display: block;
+    color: var(--color-text-highlight);
+    margin-bottom: 10px;
+}
+
+.field input:not([type=checkbox], [type=radio]), .field select, .field textarea {
+    background: var(--color-field-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-field-border);
+    outline: 0;
+    border-radius: 5px;
+    height: 40px;
+    padding: 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+     border: 1px solid var(--color-field-focused-border);
+ }
+
+.field:global(.is-checkbox) input, .field:global(.is-radio) input {
+    position: absolute;
+    top: 5px;
+}
+
+.field:global(.is-checkbox) label, .field:global(.is-radio) label {
+    padding-left: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.field :global(.generic-form-error) {
+    color: var(--color-alert);
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+}
+
+.field:global(.has-error) input:not([type=checkbox],[type=radio]),
+.field:global(.has-error) select,
+.field:global(.has-error) textarea {
+    border-color: var(--color-alert);
+}

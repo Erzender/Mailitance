@@ -45,7 +45,19 @@ const getAll = async (req, res, next) => {
   return res.json({ success: true, groups: ret.groups });
 };
 
+const getGroupMembers = async (req, res, next) => {
+  let ret = await groupService.checkRightsAndGetMembers(
+    req.decoded.id,
+    req.params.groupId
+  );
+  if (!!ret.error) {
+    return error.status(res, ret.error);
+  }
+  return res.json(ret);
+}
+
 exports.addGroup = addGroup;
 exports.addGroupOperators = addGroupOperators;
 exports.addGroupMilitants = addGroupMilitants;
 exports.getAll = getAll;
+exports.getGroupMembers = getGroupMembers;

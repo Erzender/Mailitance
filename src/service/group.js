@@ -69,6 +69,43 @@ const checkRightsAndAddGroupMilitants = async (actor, groupId, usersParam) => {
   return { error: false };
 };
 
+const checkRightsAndGetMembers = async (userId, groupId) => {
+  if (!groupId)
+    return { error: "missing_parameters" };
+  let isAdmin = await accountService.checkAdmin(userId);
+  if (isAdmin.error) {
+    let isOperator = await accountService.checkOperator(actor, groupId);
+    if (isOperator.error) return isOperator;
+  }
+
+  try {
+    const militants = await data.User.findAll({
+      include: {
+        model: data.Group,
+        as: 'MilitantGroups',
+        required: true,
+        where: {
+          id: groupId
+        }
+      }
+    });
+    const operators = await data.User.findAll({
+      include: {
+        model: data.Group,
+        as: 'OperatingGroups',
+        required: true,
+        where: {
+          id: groupId
+        }
+      }
+    });
+    return { success: true, militants, operators }
+  } catch(err) {
+    console.error(err);
+    return { error: "internal_error" };
+  }
+}
+
 const getSubGroupsIds = async group => {
   let groups = [group.dataValues.id];
   let level = group.dataValues.level;
@@ -101,8 +138,13 @@ const getAll = async () => {
   return { error: false };
 };
 
+const getMembers = async (groupId) => {
+
+}
+
 exports.checkRightsAndAddGroup = checkRightsAndAddGroup;
 exports.checkRightsAndAddGroupOperators = checkRightsAndAddGroupOperators;
 exports.checkRightsAndAddGroupMilitants = checkRightsAndAddGroupMilitants;
+exports.checkRightsAndGetMembers = checkRightsAndGetMembers;
 exports.getSubGroupsIds = getSubGroupsIds;
 exports.getAll = getAll;

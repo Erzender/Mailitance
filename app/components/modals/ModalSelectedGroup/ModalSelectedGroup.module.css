@@ -1,0 +1,24 @@
+.list li {
+    border-left: 1px dashed var(--color-field-border);
+    padding: 5px
+}
+
+.list li > button {
+    background: none;
+    outline: none;
+    border: 0;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.list :global(li.is-selected) > button {
+    color: var(--color-primary);
+}
+
+.list li:before {
+    content: "˫";
+}
+
+.list li li {
+    margin-left: 10px;
+}

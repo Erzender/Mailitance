@@ -3,3 +3,4 @@ node_modules
 app/node_modules
 src/dist/*
 !src/dist/.gitkeep
+app/.next

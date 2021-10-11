@@ -63,13 +63,14 @@ const checkMilitant = async (userId, groupId = null) => {
   return { error: false };
 };
 
-const checkRightsAndAddAccount = async (userId, username, password) => {
+const checkRightsAndAddAccount = async (userId, username, password, admin) => {
   let isAdmin = await checkAdmin(userId);
   if (isAdmin.error) {
+    if (admin) return isAdmin;
     let isOperator = await checkOperator(userId);
     if (isOperator.error) return isAdmin;
   }
-  return await addAccount(username, password, false);
+  return await addAccount(username, password, admin);
 };
 
 const login = async (username, password) => {
@@ -89,7 +90,7 @@ const login = async (username, password) => {
   if (!compare) {
     return { error: "wrong_password" };
   }
-  return { error: false, userId: user.dataValues.id };
+  return { error: false, userId: user.dataValues.id, admin: user.dataValues.admin };
 };
 
 const init = async () => {
@@ -163,12 +164,8 @@ const get = async (actor, userId) => {
     if (user.dataValues.id !== targetUser.dataValues.id && !user.admin) {
       return { error: "forbidden" };
     }
-
     return {
-      id: targetUser.dataValues.id,
-      admin: targetUser.dataValues.admin,
-      username: targetUser.dataValues.username,
-      displayName: targetUser.dataValues.displayName,
+      ...targetUser.formattedUser,
       operatingGroups: (await targetUser.getOperatingGroups()).map(
         group => group.dataValues.id
       ),
@@ -183,6 +180,11 @@ const get = async (actor, userId) => {
   return { error: false };
 };
 
+const getAll = async (userId) => {
+  const users = await data.User.findAll();
+  return users.map(u => u.formattedUser);
+}
+
 exports.addAccount = addAccount;
 exports.login = login;
 exports.init = init;
@@ -192,3 +194,4 @@ exports.checkOperator = checkOperator;
 exports.checkMilitant = checkMilitant;
 exports.checkRightsAndAddAccount = checkRightsAndAddAccount;
 exports.get = get;
+exports.getAll = getAll;

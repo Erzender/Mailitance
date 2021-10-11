@@ -9,6 +9,17 @@ const User = db.sequelize.define("user", {
   displayName: Sequelize.STRING,
   password: Sequelize.STRING,
   admin: Sequelize.BOOLEAN,
+}, {
+  getterMethods: {
+    formattedUser() {
+      return {
+        id: this.id,
+        admin: this.admin,
+        username: this.username,
+        displayName: this.displayName
+      }
+    }
+  }
 });
 
 const Group = db.sequelize.define("group", {

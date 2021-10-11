@@ -35,6 +35,7 @@ api.use(accountCnt.checkToken);
 // authenticated routes :
 api.get("/", (req, res) => res.send("EN CONSTRUCTION"));
 
+api.get("/account", accountCnt.getAll);
 api.patch("/account", accountCnt.update);
 api.post("/account", accountCnt.addAccount);
 api.get("/account/:accountId", accountCnt.get);
@@ -43,6 +44,7 @@ api.post("/group", groupCnt.addGroup);
 api.get("/group", groupCnt.getAll);
 api.post("/groupOperators", groupCnt.addGroupOperators);
 api.post("/groupMilitants", groupCnt.addGroupMilitants);
+api.get("/group/:groupId/members", groupCnt.getGroupMembers);
 
 api.post("/contacts", contactCnt.addContacts);
 api.delete("/contacts", contactCnt.removeContacts);

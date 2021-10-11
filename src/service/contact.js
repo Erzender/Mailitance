@@ -13,6 +13,7 @@ const CONTACT_STATUSES = [
 ];
 
 const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
+  let createdContacts = [];
   try {
     if (!groupId || !Array.isArray(contacts) || contacts.length === 0)
       return { error: "missing_parameters" };
@@ -58,12 +59,13 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
         topics: JSON.stringify(contactParam.topics)
       });
       await contact.setGroup(group);
+      createdContacts.push(contact);
     }
   } catch (err) {
     console.error(err);
     return { error: "internal_error" };
   }
-  return { error: false };
+  return { error: false, contacts: createdContacts };
 };
 
 const checkRightsAndRemoveContacts = async (userId, contacts) => {

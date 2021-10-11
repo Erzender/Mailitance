@@ -1,0 +1,16 @@
+.nav {
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: var(--color-field-bg);
+    text-align: center;
+    line-height: 50px;
+}
+
+.nav li {
+    display: inline-block;
+}
+
+.nav li + li {
+    margin-left: 20px;
+}
