@@ -181,6 +181,15 @@ const get = async (actor, userId) => {
 };
 
 const getAll = async (userId) => {
+  const user = await data.User.findByPk(userId, {
+    include: {
+      model: data.Group,
+      as: 'OperatingGroups'
+    }
+  });
+
+  if (!user.admin && !user.OperatingGroups.length)
+    return { error: "forbidden" };
   const users = await data.User.findAll();
   return users.map(u => u.formattedUser);
 }
