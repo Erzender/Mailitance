@@ -3,6 +3,11 @@ import property from 'lodash/fp/property';
 
 const accountStateSelector = property('account');
 
+export const loadedSelector = pipe(
+  accountStateSelector,
+  property('loaded')
+);
+
 export const isLoggedInSelector = pipe(
   accountStateSelector,
   property('isLoggedIn')
@@ -27,3 +32,8 @@ export const militantGroupsSelector = pipe(
   accountStateSelector,
   property('militantGroups')
 );
+
+export const displayNameSelector = pipe(
+  accountStateSelector,
+  property('displayName')
+)

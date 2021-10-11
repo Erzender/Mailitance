@@ -7,5 +7,6 @@ export const GroupContact = ({ groupId }) =>
     <Head>
       <title>Ajout de contact | Mailitance</title>
     </Head>
+    <h1>Ajout de contact</h1>
     <ContactForm groupId={groupId} />
   </main>

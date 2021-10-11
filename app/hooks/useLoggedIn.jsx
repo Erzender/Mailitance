@@ -2,8 +2,7 @@ import {useRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
 import {isLoggedInSelector, userIdSelector} from "../redux/account/accountSelectors";
 import {useEffect, useState} from "react";
-import {groupsFetch} from "../redux/groups/groupsActions";
-import {accountFetch} from "../redux/account/accountActions";
+import {sharedInitialFetch} from "../redux/sharedActions";
 
 export const useLoggedIn = () => {
   const router = useRouter();
@@ -16,8 +15,7 @@ export const useLoggedIn = () => {
       router.push('/login');
     else if (firstLoad) {
       setFirstLoad(false);
-      dispatch(groupsFetch());
-      dispatch(accountFetch(userId));
+      dispatch(sharedInitialFetch(userId));
     }
   }, [isLoggedIn, userId]);
 

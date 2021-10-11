@@ -1,30 +1,39 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {contactsFetch} from "../../../redux/contacts/contactsActions";
-import {groupByIdSelector} from "../../../redux/groups/groupsSelectors";
+import {groupByIdSelector, groupsListSelector} from "../../../redux/groups/groupsSelectors";
 import Head from "next/head";
 import {ViewNav} from "../../../components/layout/ViewNav/ViewNav";
-import {isAdminSelector} from "../../../redux/account/accountSelectors";
-import {asyncGroupMembersFetch} from "../../../redux/async/asyncGroup";
-import {asyncAccountFetchAll} from "../../../redux/async/asyncAccount";
+import {isAdminSelector, loadedSelector, userIdSelector} from "../../../redux/account/accountSelectors";
+import {groupMembersFetch} from "../../../redux/groups/groupsActions";
+import {usersListSelector} from "../../../redux/users/usersSelector";
+import {UsersList} from "../../../components/lists/UsersList/UsersList";
+import { usersFetchAll} from "../../../redux/users/usersActions";
+import {isOperatorSelector} from "../../../redux/sharedSelectors";
+import {ActivistForm} from "../../../components/forms/ActivistForm";
+import {OperatorForm} from "../../../components/forms/OperatorForm";
 
 export const GroupManagement = ({ groupId }) => {
 
   const admin = useSelector(isAdminSelector);
   const group = useSelector(groupByIdSelector(groupId))
+  const isOperator = useSelector(isOperatorSelector);
   const dispatch = useDispatch();
+  const loaded = useSelector(loadedSelector);
+
+
   useEffect(() => {
-    if (groupId) {
+    if (loaded) {
       dispatch(contactsFetch(groupId))
-      if (admin) {
-        asyncGroupMembersFetch(groupId);
-        asyncAccountFetchAll();
+      if (isOperator || admin) {
+        dispatch(groupMembersFetch(groupId))
+        dispatch(usersFetchAll())
       }
     }
 
 
-  }, [groupId])
-  return <main id="view-single">
+  }, [loaded])
+  return group ? <main id="view-single">
     <Head>
       <title> Gestion du groupe: {group?.title} | Mailitance</title>
     </Head>
@@ -36,5 +45,23 @@ export const GroupManagement = ({ groupId }) => {
         href: `/groupe/${groupId}/utilisateur`
       }
     ]}/>
-  </main>
+
+    <h2>Militants</h2>
+    <ul>
+      {group.militants?.map(a => <li key={a.id}>
+        {a.displayName}
+      </li>)}
+    </ul>
+    {(isOperator || admin) && <ActivistForm groupId={groupId} />}
+
+    <h2>Opérateurs</h2>
+    <ul>
+      {group.operators?.map(a => <li key={a.id}>
+        {a.displayName}
+      </li>)}
+    </ul>
+    {(isOperator || admin) && <OperatorForm groupId={groupId} />}
+
+
+  </main> : null;
 }

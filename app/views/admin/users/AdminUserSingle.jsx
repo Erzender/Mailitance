@@ -1,15 +1,22 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {selectedUserSelector} from "../../../redux/users/usersSelector";
-import {usersFetch} from "../../../redux/users/usersActions";
-import {groupsListSelector} from "../../../redux/groups/groupsSelectors";
+import {usersFetch, usersSetActivist, usersSetOperator} from "../../../redux/users/usersActions";
 import GenericForm from "generic-form";
 import { StyledFormField } from "../../../components/forms/StyledFormField/StyledFormField";
 import {Button} from "../../../components/buttons/Button/Button";
+import {selectedUserGroupsSelector} from "../../../redux/sharedSelectors";
+import {groupsListSelector} from "../../../redux/groups/groupsSelectors";
+
+const roles = {
+  'activist': 'Militant',
+  'operator': 'Opérateur'
+}
 
 export const AdminUserSingle = ({ userId }) => {
 
   const user = useSelector(selectedUserSelector);
+  const userGroups = useSelector(selectedUserGroupsSelector);
   const groups = useSelector(groupsListSelector);
   const dispatch = useDispatch();
 
@@ -17,7 +24,7 @@ export const AdminUserSingle = ({ userId }) => {
     if (userId)  dispatch(usersFetch(userId));
   }, [userId]);
 
-  return user ? <main>
+  return user && userGroups ? <main>
 
     <h1>{user.displayName}</h1>
 
@@ -25,18 +32,26 @@ export const AdminUserSingle = ({ userId }) => {
     <ul>
       {
 
-        [...user.militantGroups.map(g => ({ role: 'Militant', ...g})), ...user.operatingGroups.map(g => ({ role: 'Opérateur', ...g}))].sort((a, b) => a.title - b.title).map(g =>
+        userGroups.sort((a, b) => a.title - b.title).map(g =>
         <li key={g.id}>
-          {g.title}
+          {g.title} ({roles[g.role]})
         </li>)
       }
     </ul>
 
     <h2>Ajouter au groupe </h2>
-    <GenericForm>
-      <StyledFormField label="Groupe" type="select" options={groups.map(g => ({ label : g.title, value: g.id}))}/>
-      <StyledFormField label="Rôle" type="select" options={[
-        { label: 'Militant', value: 'militant'},
+    <GenericForm id="admin-user-group-role" onSubmit={(e, { group, role }) => {
+      e.preventDefault();
+      dispatch(
+        role === 'activist'
+        ? usersSetActivist(group, [userId])
+        : usersSetOperator(group, [userId])
+      );
+    }
+    }>
+      <StyledFormField formId="admin-user-group-role" label="Groupe" type="select" name="group" options={groups.map(g => ({ label : g.title, value: g.id}))}/>
+      <StyledFormField formId="admin-user-group-role"  label="Rôle" type="select" name="role" options={[
+        { label: 'Militant', value: 'activist'},
         { label: 'Opérateur', value: 'operator'}
       ]}/>
       <Button>Ajouter l'utilisateur au groupe</Button>

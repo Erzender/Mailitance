@@ -21,6 +21,12 @@ export const asyncAccountCreate = (username, password, admin) =>
     body: JSON.stringify({ username, password, admin })
   })
 
+export const asyncAccountUpdate = (data) =>
+  apiFetch('/account', {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  })
+
 export const asyncAccountFetchAll = () =>
   apiFetch('/account', {
     method: 'GET'

@@ -20,12 +20,20 @@ export const asyncGroupCreate = (title, parentGroup) =>
     })
   })
 
-export const asyncGroupAddActivist= () =>
+export const asyncGroupAddActivist= (groupId, userIds) =>
   apiFetch('/groupMilitants', {
-    method: 'POST'
+    method: 'POST',
+    body: JSON.stringify({
+      group: groupId,
+      users: userIds
+    })
   })
 
-export const asyncGroupAddOperator = () =>
+export const asyncGroupAddOperator = (groupId, userIds) =>
   apiFetch('/groupMilitants', {
-    method: 'POST'
+    method: 'POST',
+    body: JSON.stringify({
+      group: groupId,
+      users: userIds
+    })
   })
