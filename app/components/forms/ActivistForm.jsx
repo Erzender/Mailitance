@@ -6,14 +6,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {usersListSelector} from "../../redux/users/usersSelector";
 import {usersSetActivist, usersSetOperator} from "../../redux/users/usersActions";
 
-export const ActivistForm = ({ groupId }) => {
+export const ActivistForm = ({ className, groupId, title }) => {
   const users = useSelector(usersListSelector)
   const dispatch = useDispatch();
 
-  return users?.length ? <GenericForm id="activist-form" onSubmit={(e, data) => {
+  return users?.length ? <GenericForm id="activist-form" className={className} onSubmit={(e, data) => {
     e.preventDefault();
     dispatch( usersSetActivist(groupId, [parseInt(data.userId)]))
   }}>
+    {title && <h3>{title}</h3>}
     <StyledFormField formId="activist-form" label="Utilisateur" name="userId" type="select" options={users.map(u => ({ label: u.displayName, value: u.id}))} />
     <Button>Ajouter un militant</Button>
   </GenericForm> : null;

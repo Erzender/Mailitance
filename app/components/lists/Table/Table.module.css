@@ -1,23 +1,26 @@
-.list {
+.table {
     width: 100%;
+    border: 1px solid var(--color-bg-dark);
+    padding: 0;
+    border-spacing: 0;
 }
 
-.list thead {
+.table thead {
     background: var(--color-bg-dark);
     font-size: 0.9rem;
 }
 
-.list th, .list td {
+.table th, .table td {
     padding: 5px 10px;
     text-align: left;
     font-weight: normal;
 }
 
-.list tr:nth-of-type(odd) {
+.table tr:nth-of-type(odd) {
     background-color: rgba(0,0,0,0.3);
 }
 
-.list th button {
+.table th button {
     background: transparent;
     color: var(--color-text);
     outline: 0;

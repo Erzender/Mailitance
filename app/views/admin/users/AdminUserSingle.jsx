@@ -7,6 +7,8 @@ import { StyledFormField } from "../../../components/forms/StyledFormField/Style
 import {Button} from "../../../components/buttons/Button/Button";
 import {selectedUserGroupsSelector} from "../../../redux/sharedSelectors";
 import {groupsListSelector} from "../../../redux/groups/groupsSelectors";
+import styles from '../../../components/forms/Form.module.css';
+import {Table} from "../../../components/lists/Table/Table";
 
 const roles = {
   'activist': 'Militant',
@@ -26,21 +28,26 @@ export const AdminUserSingle = ({ userId }) => {
 
   return user && userGroups ? <main>
 
-    <h1>{user.displayName}</h1>
+    <h1>Utilisateur: {user.displayName}</h1>
 
     <h2>Groupes</h2>
-    <ul>
+    <Table>
+      <thead>
+      <th>Nom du groupe</th>
+      <th>Rôle</th>
+      </thead>
+      <tbody>
       {
 
         userGroups.sort((a, b) => a.title - b.title).map(g =>
-        <li key={g.id}>
-          {g.title} ({roles[g.role]})
-        </li>)
+          <tr key={g.id}>
+            <td>{g.title} </td><td>{roles[g.role]}</td>
+          </tr>)
       }
-    </ul>
+      </tbody>
+    </Table>
 
-    <h2>Ajouter au groupe </h2>
-    <GenericForm id="admin-user-group-role" onSubmit={(e, { group, role }) => {
+    <GenericForm id="admin-user-group-role" className={styles.bordered} onSubmit={(e, { group, role }) => {
       e.preventDefault();
       dispatch(
         role === 'activist'
@@ -49,6 +56,7 @@ export const AdminUserSingle = ({ userId }) => {
       );
     }
     }>
+      <h3>Ajouter au groupe </h3>
       <StyledFormField formId="admin-user-group-role" label="Groupe" type="select" name="group" options={groups.map(g => ({ label : g.title, value: g.id}))}/>
       <StyledFormField formId="admin-user-group-role"  label="Rôle" type="select" name="role" options={[
         { label: 'Militant', value: 'activist'},

@@ -1,17 +1,15 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {contactsFetch} from "../../../redux/contacts/contactsActions";
-import {groupByIdSelector, groupsListSelector} from "../../../redux/groups/groupsSelectors";
+import {groupByIdSelector} from "../../../redux/groups/groupsSelectors";
 import Head from "next/head";
 import {ViewNav} from "../../../components/layout/ViewNav/ViewNav";
-import {isAdminSelector, loadedSelector, userIdSelector} from "../../../redux/account/accountSelectors";
+import {isAdminSelector, loadedSelector} from "../../../redux/account/accountSelectors";
 import {groupMembersFetch} from "../../../redux/groups/groupsActions";
-import {usersListSelector} from "../../../redux/users/usersSelector";
-import {UsersList} from "../../../components/lists/UsersList/UsersList";
 import { usersFetchAll} from "../../../redux/users/usersActions";
 import {isOperatorSelector} from "../../../redux/sharedSelectors";
 import {ActivistForm} from "../../../components/forms/ActivistForm";
 import {OperatorForm} from "../../../components/forms/OperatorForm";
+import styles from '../../../components/forms/Form.module.css'
 
 export const GroupManagement = ({ groupId }) => {
 
@@ -51,7 +49,7 @@ export const GroupManagement = ({ groupId }) => {
         {a.displayName}
       </li>)}
     </ul>
-    {(isOperator || admin) && <ActivistForm groupId={groupId} />}
+    {(isOperator || admin) && <ActivistForm className={styles.bordered} title="Ajouter un militant" groupId={groupId} />}
 
     <h2>Opérateurs</h2>
     <ul>
@@ -59,7 +57,7 @@ export const GroupManagement = ({ groupId }) => {
         {a.displayName}
       </li>)}
     </ul>
-    {(isOperator || admin) && <OperatorForm groupId={groupId} />}
+    {(isOperator || admin) && <OperatorForm className={styles.bordered} title="Ajouter un opérateur" groupId={groupId} />}
 
 
   </main> : null;

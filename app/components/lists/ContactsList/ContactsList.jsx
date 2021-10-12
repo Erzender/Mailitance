@@ -1,8 +1,9 @@
-import styles from './ContactsList.module.css';
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {contactsListSelector} from "../../../redux/contacts/contactsSelector";
 import {FiCheck, FiX} from "react-icons/fi";
+import {Table} from "../Table/Table";
+import styles from "../Table/Table.module.css";
 
 const sorters = [
   { label: 'Nom de famille', name: 'lastname'},
@@ -19,7 +20,7 @@ export const ContactsList = () => {
     if (_sorter !== sorter.name) setSorter({ name: _sorter, order: 1 });
     else setSorter({ name: _sorter, order: sorter.order === 1 ? -1 : 1})
   }
-  return <table className={styles.list}>
+  return <Table>
     <thead>
       <tr>
         {sorters.map((s, i) => <th key={i}>
@@ -41,6 +42,6 @@ export const ContactsList = () => {
       <td>{c.voteRegistration ? <FiCheck /> : <FiX/>}</td>
     </tr>)}
     </tbody>
-  </table>
+  </Table>
 
 }
