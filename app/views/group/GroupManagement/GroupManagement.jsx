@@ -24,7 +24,6 @@ export const GroupManagement = ({ groupId }) => {
 
   useEffect(() => {
     if (loaded) {
-      dispatch(contactsFetch(groupId))
       if (isOperator || admin) {
         dispatch(groupMembersFetch(groupId))
         dispatch(usersFetchAll())
@@ -40,7 +39,7 @@ export const GroupManagement = ({ groupId }) => {
     <h1>Gestion du groupe: {group?.title}</h1>
 
     <ViewNav actions={[
-      admin && {
+      (admin || isOperator ) && {
         children: 'Ajouter un utilisateur',
         href: `/groupe/${groupId}/utilisateur`
       }

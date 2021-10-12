@@ -1,5 +1,6 @@
 :root {
     --color-bg: #191d21;
+    --color-bg-dark: #000;
     --color-text: #d3d3d3;
     --color-text-highlight: #fff;
     --color-alert: #dc3545;

@@ -1,7 +1,15 @@
+import styles from './ContactsList.module.css';
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {contactsListSelector} from "../../../redux/contacts/contactsSelector";
 import {FiCheck, FiX} from "react-icons/fi";
+
+const sorters = [
+  { label: 'Nom de famille', name: 'lastname'},
+  { label: 'Prénom', name: 'firstname' },
+  { label: 'E-mail', name: 'email' },
+  { label: 'Âge', name: 'age' },
+]
 
 export const ContactsList = () => {
   const contacts = useSelector(contactsListSelector);
@@ -11,13 +19,12 @@ export const ContactsList = () => {
     if (_sorter !== sorter.name) setSorter({ name: _sorter, order: 1 });
     else setSorter({ name: _sorter, order: sorter.order === 1 ? -1 : 1})
   }
-  return <table>
+  return <table className={styles.list}>
     <thead>
       <tr>
-        <th><button onClick={() => sort('lastname')}>Nom de famille</button></th>
-        <th><button onClick={() => sort('firstname')}>Prénom</button></th>
-        <th><button onClick={() => sort('email')}>E-mail</button></th>
-        <th><button onClick={() => sort('age')}>Tranche d'âge</button></th>
+        {sorters.map((s, i) => <th key={i}>
+         <button className={sorter.name === s.name ? sorter.order > 0 ? styles.asc: styles.dsc : null} onClick={() => sort(s.name)}>{s.label}</button>
+        </th>)}
         <th>Inscrit</th>
       </tr>
     </thead>
