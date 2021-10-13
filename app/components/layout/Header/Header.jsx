@@ -24,7 +24,8 @@ export const Header = () => {
       <img src="/logo.svg" alt=""/>
     </Link>
     <button
-      onClick={() => dispatch(modalOpen(ModalSelectedGroup))}>{selectedGroup ? selectedGroup.title : 'Sélectionner un groupe'}</button>
+      className={styles.group}
+      onClick={() => dispatch(modalOpen(ModalSelectedGroup))}>{selectedGroup ? `Groupe: ${selectedGroup.title}` : 'Sélectionner un groupe'}</button>
     <nav>
       <ul>
 

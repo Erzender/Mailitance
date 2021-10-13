@@ -20,3 +20,26 @@
 .header nav li + li {
     margin-left: 20px;
 }
+
+.group {
+    background: transparent;
+    color: var(--color-text);
+    outline: 0;
+    border: 0;
+    font-size: 1.1rem;
+    margin: 0 20px;
+    cursor: pointer;
+}
+
+.group:after {
+    content: "";
+    display : inline-block;
+    height : 0;
+    width : 0;
+    border-right : 6px solid transparent;
+    border-top : 6px solid var(--color-text);
+    border-left : 6px solid transparent;
+    position: relative;
+    top: -2px;
+    margin-left: 10px;
+}

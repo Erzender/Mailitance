@@ -1,6 +1,6 @@
 .list li {
     border-left: 1px dashed var(--color-field-border);
-    padding: 5px
+    padding: 5px;
 }
 
 .list li > button {
@@ -9,6 +9,7 @@
     border: 0;
     color: var(--color-text);
     cursor: pointer;
+    font-size: 1.1rem;
 }
 
 .list :global(li.is-selected) > button {
