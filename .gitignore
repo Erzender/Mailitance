@@ -6,3 +6,4 @@ src/dist/*
 app/.next
 app/public/sw.js
 app/public/workbox-*.js
+app/out

@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require('path');
+const fg = require('fast-glob');
 
 require("dotenv").config();
 const data = require("./_model");
@@ -16,13 +18,6 @@ app.use(cors());
 app.set("secret", process.env.MAILITANCE_SECRET);
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/dist/index.html");
-});
-
-app.get("/build.js", (req, res) => {
-  res.sendFile(__dirname + "/dist/build.js");
-});
 app.get("/images/:image", (req, res) => {
   res.sendFile(__dirname + "/dist/images/" + req.params.image);
 });
@@ -51,6 +46,15 @@ api.delete("/contacts", contactCnt.removeContacts);
 api.get("/group/:groupId/contacts", contactCnt.getContacts);
 
 app.use("/api", api);
+
+app.use("/", express.static(path.join(__dirname ,"../app/out")));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname ,"../app/out/index.html")))
+
+const files = fg.sync(["../app/out/**/*.html"], { absolute: true, cwd: __dirname });
+files.forEach((file) => {
+  const route = '/'+file.replace(/^.*\/out\/|\.html$/g, '').replace(/\[([a-zA-Z]*)]/g, ":$1");
+  app.get(route, (req, res) => res.sendFile(file));
+});
 
 db.sequelize.sync().then(async () => {
   let ret = await accountService.init();
