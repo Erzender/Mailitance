@@ -1,6 +1,7 @@
+import styles from './Login.module.css';
 import React, {useEffect} from 'react';
 import {LoginForm} from "../../components/forms/LoginForm";
-import {connect, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {isLoggedInSelector} from "../../redux/account/accountSelectors";
 import {useRouter} from "next/router";
 import Head from "next/head";
@@ -17,6 +18,10 @@ export const Login = () => {
     <Head>
       <title>Mailitance | Connexion</title>
     </Head>
-    <LoginForm />
+    <div className={styles.login}>
+      <img src="/logo.svg" alt=""/>
+      <p>MAILITANCE - le carnet d'adresses militant</p>
+      <LoginForm />
+    </div>
   </main>
 }

@@ -3,6 +3,7 @@ import GenericForm from 'generic-form';
 import { StyledFormField } from "./StyledFormField/StyledFormField";
 import {accountLogin} from "../../redux/account/accountActions";
 import {useDispatch} from "react-redux";
+import {Button} from "../buttons/Button/Button";
 
 export const LoginForm = () => {
 
@@ -14,6 +15,6 @@ export const LoginForm = () => {
   }}>
     <StyledFormField type="text" name="username"/>
     <StyledFormField type="password" name="password"/>
-    <button>Ok</button>
+    <Button>Connexion</Button>
   </GenericForm>
 }

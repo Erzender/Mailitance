@@ -1,0 +1,23 @@
+.login {
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.login > img {
+    margin-bottom: 20px;
+}
+
+.login > p {
+    margin-bottom: 30px;
+}
+
+.login form {
+    max-width: 250px;
+    margin: auto;
+}
+
+.login button {
+    width: 100%;
+}
