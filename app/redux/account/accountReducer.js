@@ -34,6 +34,7 @@ export default function accountReducer(state = initialState, action) {
 
     case ACCOUNT_LOGOUT:
       return update(state, {
+        loaded: { $set: false  },
         username: { $set: action.username },
         isLoggedIn: { $set: false },
       });

@@ -4,3 +4,5 @@ app/node_modules
 src/dist/*
 !src/dist/.gitkeep
 app/.next
+app/public/sw.js
+app/public/workbox-*.js
