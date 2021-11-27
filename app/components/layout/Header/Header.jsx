@@ -58,6 +58,7 @@ export const Header = () => {
         </li>}
 
         <li><Link href="/profil"><a className={router.asPath === '/profil' ? 'is-active' : null}>Profil</a></Link></li>
+        <li><Link href="/deconnexion"><a className={router.asPath === '/deconnexion' ? 'is-active' : null}>⏻</a></Link></li>
       </ul>
     </nav>
   </header>

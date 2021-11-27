@@ -6,4 +6,10 @@
     height: 40px;
     color: var(--color-text-highlight);
     padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background-color: var(--color-primary-bright);
 }
