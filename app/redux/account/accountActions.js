@@ -1,5 +1,5 @@
 import {asyncAccountCreate, asyncAccountFetch, asyncAccountUpdate, asyncLogin} from "../async/asyncAccount";
-import {asyncActionSuccess} from "../async/asyncHelpers";
+import {asyncActionSuccess, asyncActionError} from "../async/asyncHelpers";
 
 const PREFIX = 'ACCOUNT';
 export const ACCOUNT_LOGIN = `${PREFIX}/LOGIN`;
@@ -11,12 +11,19 @@ export const ACCOUNT_UPDATE = `${PREFIX}/UPDATE`;
 
 export const accountLogin = (username, password) => async dispatch => {
   dispatch({ type: ACCOUNT_LOGIN});
-  const { success, token, admin, userId } = await asyncLogin(username, password);
-  if (!success) throw new Error('Login Failed');
+  const res = await asyncLogin(username, password);
+  if (!res || !res.success) {
+    dispatch({type: asyncActionError(ACCOUNT_LOGIN), err: res.err});
+    return;
+  };
+  const { success, token, admin, userId } = res;
   localStorage.setItem('userId', userId);
   localStorage.setItem('token', token);
-  dispatch({ type: asyncActionSuccess(ACCOUNT_LOGIN), username, admin, userId})
+  dispatch({ type: asyncActionSuccess(ACCOUNT_LOGIN), username, admin, userId});
+}
 
+export const accountLoginError = (err) => async dispacth => {
+  dispatch({type: asyncActionError(ACCOUNT_LOGIN), err});
 }
 
 export const accountFetch = (userId) => async dispatch => {

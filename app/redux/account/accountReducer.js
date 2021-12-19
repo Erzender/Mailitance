@@ -1,9 +1,10 @@
-import {asyncActionSuccess} from "../async/asyncHelpers";
+import {asyncActionSuccess, asyncActionError} from "../async/asyncHelpers";
 import {ACCOUNT_LOGIN, ACCOUNT_LOGOUT} from "./accountActions";
 import update from 'immutability-helper';
 import {SHARED_INITIAL_FETCH} from "../sharedActions";
 
 const initialState = {
+  error: null,
   loaded: false,
   displayName: null,
   username: null,
@@ -21,7 +22,14 @@ export default function accountReducer(state = initialState, action) {
       return update(state, {
         isLoggedIn: { $set: true },
         admin: { $set: action.admin },
-        userId: { $set: action.userId }
+        userId: { $set: action.userId },
+        error: { $set: null }
+      });
+
+    case asyncActionError(ACCOUNT_LOGIN):
+      return update(state, {
+        isLoggedIn: { $set: false },
+        error: { $set: action.err }
       });
 
     case asyncActionSuccess(SHARED_INITIAL_FETCH):
