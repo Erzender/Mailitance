@@ -1,30 +1,34 @@
 const Sequelize = require("sequelize");
 const db = require("./_data");
 
-const User = db.sequelize.define("user", {
-  username: {
-    unique: true,
-    type: Sequelize.STRING,
+const User = db.sequelize.define(
+  "user",
+  {
+    username: {
+      unique: true,
+      type: Sequelize.STRING
+    },
+    displayName: Sequelize.STRING,
+    password: Sequelize.STRING,
+    admin: Sequelize.BOOLEAN
   },
-  displayName: Sequelize.STRING,
-  password: Sequelize.STRING,
-  admin: Sequelize.BOOLEAN,
-}, {
-  getterMethods: {
-    formattedUser() {
-      return {
-        id: this.id,
-        admin: this.admin,
-        username: this.username,
-        displayName: this.displayName
+  {
+    getterMethods: {
+      formattedUser() {
+        return {
+          id: this.id,
+          admin: this.admin,
+          username: this.username,
+          displayName: this.displayName
+        };
       }
     }
   }
-});
+);
 
 const Group = db.sequelize.define("group", {
   title: Sequelize.STRING,
-  level: Sequelize.INTEGER,
+  level: Sequelize.INTEGER
 });
 
 const Contact = db.sequelize.define("contact", {
@@ -41,6 +45,7 @@ const Contact = db.sequelize.define("contact", {
   help: { type: Sequelize.BOOLEAN, defaultValue: false },
   status: Sequelize.INTEGER, // code => 0 => neutre, 1 => sympathisant, 2 => militant, 3 => organisateur
   rgpdConsent: { type: Sequelize.BOOLEAN, defaultValue: false },
+  comment: Sequelize.TEXT
 });
 
 Contact.belongsTo(Group);
