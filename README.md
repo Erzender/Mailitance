@@ -31,6 +31,6 @@ Le système conduit intrinsèquement à l'hébergement de données sensibles, so
 Le code source du présent logiciel se trouve sous licence publique LPRAB v1. Il est donc ouvert à toute utilisation. Ce choix émane d'abord d'un souci de transparence et permet à chacun de vérifier que le logiciel répond à ses propres exigences. Cela permet en outre une réutilisation totale du code source *(bien que le code ne soit pas pensé pour, et répond en outre à une problématique très spécifique au mouvement militant de la France Insoumise)*.
 
 ---
-[![Discord Insoumis](https://melenshack.fr/images/9JpPj3_S.png)](https://discord.com/invite/g7M2QjQ
+[![Discord Insoumis](https://melenshack.fr/images/9JpPj3_S.png)](https://discord-insoumis.fr
 )
 **〞_N'attendez pas les consignes._ 〟**
