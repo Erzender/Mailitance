@@ -11,3 +11,9 @@ export const asyncContactsCreate = (group, contacts) =>
     method: 'POST',
     body: JSON.stringify({group, contacts})
   });
+
+export const asyncContactsDelete = (contacts) =>
+  apiFetch('/contacts', {
+    method: 'DELETE',
+    body: JSON.stringify({ contacts})
+  });

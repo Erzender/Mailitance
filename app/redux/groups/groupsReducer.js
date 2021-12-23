@@ -39,9 +39,7 @@ export default function groupReducer(state = initialState, action) {
 
     case asyncActionSuccess(GROUPS_MEMBERS_FETCH): {
       const groupIndex = state.list.findIndex(g => g.id === action.groupId);
-      console.log(state.list.length, action)
       if (groupIndex<0) return state;
-      console.log('tot')
       return update(state, {
         list: {
           [groupIndex]: { $merge: { operators: action.operators, militants :action.militants} }

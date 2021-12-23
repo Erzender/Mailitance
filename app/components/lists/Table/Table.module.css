@@ -5,6 +5,10 @@
     border-spacing: 0;
 }
 
+.table + .table {
+    margin-top: 40px;
+}
+
 .table thead {
     background: var(--color-bg-dark);
     font-size: 0.9rem;

@@ -33,8 +33,10 @@ export const AdminUserSingle = ({ userId }) => {
     <h2>Groupes</h2>
     <Table>
       <thead>
-      <th>Nom du groupe</th>
-      <th>Rôle</th>
+      <tr>
+        <th>Nom du groupe</th>
+        <th>Rôle</th>
+      </tr>
       </thead>
       <tbody>
       {

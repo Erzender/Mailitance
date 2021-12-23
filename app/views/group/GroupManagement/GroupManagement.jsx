@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {groupByIdSelector} from "../../../redux/groups/groupsSelectors";
+import {groupByIdSelector, selectedGroupSelector} from "../../../redux/groups/groupsSelectors";
 import Head from "next/head";
 import {ViewNav} from "../../../components/layout/ViewNav/ViewNav";
 import {isAdminSelector, loadedSelector} from "../../../redux/account/accountSelectors";
@@ -10,6 +10,7 @@ import {isOperatorSelector} from "../../../redux/sharedSelectors";
 import {ActivistForm} from "../../../components/forms/ActivistForm";
 import {OperatorForm} from "../../../components/forms/OperatorForm";
 import styles from '../../../components/forms/Form.module.css'
+import {useRouter} from "next/router";
 
 export const GroupManagement = ({ groupId }) => {
 
@@ -18,6 +19,8 @@ export const GroupManagement = ({ groupId }) => {
   const isOperator = useSelector(isOperatorSelector);
   const dispatch = useDispatch();
   const loaded = useSelector(loadedSelector);
+  const selectedGroup = useSelector(selectedGroupSelector)
+  const { push } = useRouter()
 
 
   useEffect(() => {
@@ -29,7 +32,13 @@ export const GroupManagement = ({ groupId }) => {
     }
 
 
-  }, [loaded])
+  }, [loaded]);
+
+
+  useEffect(() => {
+    if (selectedGroup.id !== groupId) push(`/groupe/${selectedGroup.id}/gestion`)
+  }, [ selectedGroup])
+
   return group ? <main id="view-single">
     <Head>
       <title> Gestion du groupe: {group?.title} | Mailitance</title>

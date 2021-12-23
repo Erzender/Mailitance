@@ -7,12 +7,15 @@ import {usersFetchAll} from "../../../redux/users/usersActions";
 import {usersListSelector} from "../../../redux/users/usersSelector";
 import {UsersList} from "../../../components/lists/UsersList/UsersList";
 import {loadedSelector} from "../../../redux/account/accountSelectors";
+import {GroupList} from "../../../components/lists/GroupList/GroupList";
+import {groupsListSelector} from "../../../redux/groups/groupsSelectors";
 
 export const AdminDashboard = () => {
 
   const loaded = useSelector(loadedSelector)
   const dispatch = useDispatch();
   const users = useSelector(usersListSelector);
+  const groups = useSelector(groupsListSelector)
 
   useEffect(() => {
     if (loaded) dispatch(usersFetchAll());
@@ -23,6 +26,9 @@ export const AdminDashboard = () => {
       <title>Administration | Mailitance</title>
     </Head>
 
+    <h2>Utilisateurs</h2>
     {users && <UsersList users={users} />}
+    <h2>Groupes</h2>
+    {groups && <GroupList groups={groups} />}
   </main> : null;
 }

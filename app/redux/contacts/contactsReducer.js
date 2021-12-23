@@ -1,6 +1,6 @@
 import {asyncActionSuccess} from "../async/asyncHelpers";
 import update from 'immutability-helper';
-import {CONTACTS_CREATE, CONTACTS_FETCH} from "./contactsActions";
+import {CONTACTS_CREATE, CONTACTS_DELETE, CONTACTS_FETCH} from "./contactsActions";
 
 const initialState = {
   list: [],
@@ -16,8 +16,13 @@ export default function groupReducer(state = initialState, action) {
       })
 
     case asyncActionSuccess(CONTACTS_CREATE):
-      update(state, {
+      return update(state, {
         list: { $push: action.contacts }
+      })
+
+    case asyncActionSuccess(CONTACTS_DELETE):
+      return update(state, {
+        list: { $set: state.list.filter(c => !action.contactsMailsOrPhones.includes(c.email) && !action.contactsMailsOrPhones.includes(c.phone)) }
       })
 
     default:
