@@ -19,3 +19,10 @@
 
     --color-icon: #d3d3d3;
 }
+
+.visually-hidden {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    position: absolute;
+}

@@ -1,0 +1,21 @@
+.list header {
+    display: flex;
+    align-items: flex-end;
+}
+
+.list .search {
+    flex: 1;
+}
+
+.list .search > div {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.list .buttons {
+    padding-bottom: 30px;
+}
+
+.list .buttons button + button {
+    margin-left: 10px;
+}
