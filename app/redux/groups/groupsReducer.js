@@ -1,6 +1,13 @@
 import {asyncActionSuccess} from "../async/asyncHelpers";
 import update from 'immutability-helper';
-import {GROUPS_CREATE, GROUPS_FETCH, GROUPS_MEMBERS_FETCH, GROUPS_SELECT} from "./groupsActions";
+import {
+  GROUPS_ADD_ACTIVIST,
+  GROUPS_ADD_OPERATOR,
+  GROUPS_CREATE,
+  GROUPS_FETCH,
+  GROUPS_MEMBERS_FETCH,
+  GROUPS_SELECT
+} from "./groupsActions";
 import {SHARED_INITIAL_FETCH} from "../sharedActions";
 
 const initialState = {
@@ -10,15 +17,17 @@ const initialState = {
 }
 
 export default function groupReducer(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
 
     case asyncActionSuccess(SHARED_INITIAL_FETCH):
-    case asyncActionSuccess(GROUPS_FETCH):
+    case asyncActionSuccess(GROUPS_FETCH): {
+      const list = action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []}));
       return update(state, {
-        list: { $set: action.groups },
-        selected: { $set: action.groups.length ? action.groups[0].id : state.selected },
-        loaded: { $set: true }
+        list: {$set: list},
+        selected: {$set: list.length ? list[0].id : state.selected},
+        loaded: {$set: true}
       });
+    }
 
     case asyncActionSuccess(GROUPS_CREATE):
       return update(state, {
@@ -27,24 +36,53 @@ export default function groupReducer(state = initialState, action) {
             id: action.groupId,
             title: action.title,
             parent: action.parentGroup,
-            level: action.parentGroup ? state.list.find(({id}) => id === action.parentGroup).level +1 : 0
+            level: action.parentGroup ? state.list.find(({id}) => id === action.parentGroup).level + 1 : 0
           }]
         }
       });
 
     case GROUPS_SELECT:
       return update(state, {
-        selected: { $set: action.id }
+        selected: {$set: action.id}
       });
 
     case asyncActionSuccess(GROUPS_MEMBERS_FETCH): {
       const groupIndex = state.list.findIndex(g => g.id === action.groupId);
-      if (groupIndex<0) return state;
+      if (groupIndex < 0) return state;
       return update(state, {
         list: {
-          [groupIndex]: { $merge: { operators: action.operators, militants :action.militants} }
+          [groupIndex]: {$merge: {operators: action.operators, militants: action.militants}}
         }
       });
+    }
+
+    case asyncActionSuccess(GROUPS_ADD_ACTIVIST): {
+      const groupIndex = state.list.findIndex(g => g.id === action.groupId);
+      if (groupIndex < 0) return state;
+      console.log(action)
+      return update(state, {
+        list: {
+          [groupIndex]: {
+            militants: {
+              $push: action.users
+            }
+          }
+        }
+      })
+    }
+
+    case asyncActionSuccess(GROUPS_ADD_OPERATOR): {
+      const groupIndex = state.list.findIndex(g => g.id === action.groupId);
+      if (groupIndex < 0) return state;
+      return update(state, {
+        list: {
+          [groupIndex]: {
+            operators: {
+              $push: action.users
+            }
+          }
+        }
+      })
     }
 
     default:

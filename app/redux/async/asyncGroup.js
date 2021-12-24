@@ -30,7 +30,7 @@ export const asyncGroupAddActivist= (groupId, userIds) =>
   })
 
 export const asyncGroupAddOperator = (groupId, userIds) =>
-  apiFetch('/groupMilitants', {
+  apiFetch('/groupOperators', {
     method: 'POST',
     body: JSON.stringify({
       group: groupId,

@@ -1,5 +1,5 @@
 import {asyncActionSuccess} from "../async/asyncHelpers";
-import {USERS_FETCH, USERS_FETCH_ALL} from "./usersActions";
+import {USERS_FETCH, USERS_FETCH_ALL, USERS_SET_ACTIVIST} from "./usersActions";
 import update from "immutability-helper";
 
 const initialState = {

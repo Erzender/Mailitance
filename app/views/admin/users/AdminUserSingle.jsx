@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {selectedUserSelector} from "../../../redux/users/usersSelector";
-import {usersFetch, usersSetActivist, usersSetOperator} from "../../../redux/users/usersActions";
+import {usersFetch} from "../../../redux/users/usersActions";
 import GenericForm from "generic-form";
 import { StyledFormField } from "../../../components/forms/StyledFormField/StyledFormField";
 import {Button} from "../../../components/buttons/Button/Button";
@@ -9,6 +9,7 @@ import {selectedUserGroupsSelector} from "../../../redux/sharedSelectors";
 import {groupsListSelector} from "../../../redux/groups/groupsSelectors";
 import styles from '../../../components/forms/Form.module.css';
 import {Table} from "../../../components/lists/Table/Table";
+import {groupAddActivist, groupAddOperator} from "../../../redux/groups/groupsActions";
 
 const roles = {
   'activist': 'Militant',
@@ -53,8 +54,8 @@ export const AdminUserSingle = ({ userId }) => {
       e.preventDefault();
       dispatch(
         role === 'activist'
-        ? usersSetActivist(group, [userId])
-        : usersSetOperator(group, [userId])
+        ? groupAddActivist(group, [user])
+        : groupAddOperator(group, [user])
       );
     }
     }>
