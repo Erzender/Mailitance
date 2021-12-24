@@ -10,6 +10,7 @@ import {
 } from "./groupsActions";
 import {SHARED_INITIAL_FETCH} from "../sharedActions";
 
+
 const initialState = {
   list: [],
   loaded: false,
@@ -22,9 +23,15 @@ export default function groupReducer(state = initialState, action) {
     case asyncActionSuccess(SHARED_INITIAL_FETCH):
     case asyncActionSuccess(GROUPS_FETCH): {
       const list = action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []}));
+
+
+      let selected = list[0].id ;
+        const g = window.localStorage.getItem('group');
+        if (g) selected = parseInt(g);
+
       return update(state, {
         list: {$set: list},
-        selected: {$set: list.length ? list[0].id : state.selected},
+        selected: {$set: list.length ? selected: state.selected},
         loaded: {$set: true}
       });
     }
@@ -42,6 +49,7 @@ export default function groupReducer(state = initialState, action) {
       });
 
     case GROUPS_SELECT:
+      window.localStorage.setItem('group', action.id);
       return update(state, {
         selected: {$set: action.id}
       });

@@ -15,8 +15,8 @@ import {useRouter} from "next/router";
 export const GroupManagement = ({ groupId }) => {
 
   const admin = useSelector(isAdminSelector);
-  const group = useSelector(groupByIdSelector(groupId))
   const isOperator = useSelector(isOperatorSelector);
+  const group = useSelector(groupByIdSelector(groupId))
   const dispatch = useDispatch();
   const loaded = useSelector(loadedSelector);
   const selectedGroup = useSelector(selectedGroupSelector)
