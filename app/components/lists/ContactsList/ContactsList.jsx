@@ -47,7 +47,7 @@ export const ContactsList = ({ buttons }) => {
       <tbody>
       {contacts?.filter(c => {
         if (!search) return true;
-        return c[searchParam].toLowerCase().includes(search.toLowerCase())
+        return c[searchParam]?.toLowerCase().includes(search?.toLowerCase())
       }).sort((a,b) => {
         console.log(sorter)
         const order = b[sorter.name] < a[sorter.name]  ? 1 : -1;
