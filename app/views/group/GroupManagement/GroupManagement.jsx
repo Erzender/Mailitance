@@ -36,7 +36,7 @@ export const GroupManagement = ({ groupId }) => {
 
 
   useEffect(() => {
-    if (selectedGroup.id !== groupId) push(`/groupe/${selectedGroup.id}/gestion`)
+    if (selectedGroup?.id !== groupId) push(`/groupe/${selectedGroup.id}/gestion`)
   }, [ selectedGroup])
 
   return group ? <main id="view-single">

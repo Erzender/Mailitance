@@ -15,7 +15,7 @@ export const Group = ({groupId}) => {
   }, [groupId])
 
   useEffect(() => {
-    if(selectedGroup.id !== groupId)
+    if(selectedGroup?.id !== groupId)
       push('/groupe/'+selectedGroup.id)
   }, [selectedGroup])
 

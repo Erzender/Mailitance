@@ -11,7 +11,7 @@ export const GroupContact = ({ groupId }) => {
   const selectedGroup = useSelector(selectedGroupSelector)
 
   useEffect(() => {
-    if (selectedGroup.id !== groupId) push(`/groupe/${selectedGroup.id}/contact`)
+    if (selectedGroup?.id !== groupId) push(`/groupe/${selectedGroup.id}/contact`)
   }, [ selectedGroup])
   return <main>
     <Head>
