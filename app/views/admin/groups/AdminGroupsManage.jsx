@@ -7,20 +7,24 @@ import {contactsListSelector} from "../../../redux/contacts/contactsSelector";
 import {contactsDelete, contactsFetch} from "../../../redux/contacts/contactsActions";
 import {Table} from "../../../components/lists/Table/Table";
 import {FiTrash} from "react-icons/fi";
+import {groupByIdSelector, selectedGroupSelector} from "../../../redux/groups/groupsSelectors";
 
 export const AdminGroupsManage = () => {
 
   const dispatch = useDispatch();
   const { query } = useRouter()
   const contacts = useSelector(contactsListSelector)
+  const group = useSelector(groupByIdSelector(query.id))
+
   useEffect(() => {
     dispatch(contactsFetch(query.id))
   }, [query.id])
+
   return  <main id="view-admin-groups-create">
     <Head>
       <title>Création de groupe | Mailitance</title>
     </Head>
-    <h1>Création de groupe</h1>
+    <h1>Gestion des contacts du groupe {group.title}</h1>
     {contacts ? <Table>
     <thead>
     <tr>
