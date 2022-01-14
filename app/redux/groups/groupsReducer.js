@@ -19,7 +19,6 @@ const initialState = {
 
 export default function groupReducer(state = initialState, action) {
   switch (action.type) {
-
     case asyncActionSuccess(SHARED_INITIAL_FETCH):
     case asyncActionSuccess(GROUPS_FETCH): {
       const list = action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []}));

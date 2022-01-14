@@ -27,7 +27,7 @@ export const Group = ({groupId}) => {
   }, [groupId])
 
   useEffect(() => {
-    if(selectedGroup?.id !== groupId)
+    if(selectedGroup && selectedGroup?.id !== groupId)
       push('/groupe/'+selectedGroup.id)
   }, [selectedGroup])
 
@@ -89,7 +89,7 @@ export const Group = ({groupId}) => {
         },
         (admin | isOperator) && {
           children: 'Importer CSV',
-          onCLick: () => inputFileRef.current.click()
+          onClick: () => inputFileRef.current.click()
         }
       ]} />
   </main> : 'Loading';

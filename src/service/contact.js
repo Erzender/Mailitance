@@ -57,7 +57,7 @@ const checkRightsAndAddContacts = async (userId, groupId, contacts) => {
       let contact = await data.Contact.create({
         ...contactParam,
         topics: JSON.stringify(contactParam.topics),
-        comment: JSON.stringify(contactParam.comment)
+        detail: JSON.stringify(contactParam.detail),
       });
       await contact.setGroup(group);
       createdContacts.push(contact);

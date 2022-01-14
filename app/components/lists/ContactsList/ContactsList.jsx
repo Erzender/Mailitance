@@ -32,7 +32,7 @@ export const ContactsList = ({ buttons }) => {
         <StyledFormField label={<span className="visually-hidden">Recherche</span> } onChange={e => setSearch(e.target.value)} type="search" />
       </div>
       {buttons.length && <div className={styles.buttons}>
-      {buttons.map(b => <Button {...b}/>)}
+      {buttons.map((b, i) => <Button key={"button" + i} {...b}/>)}
       </div>}
     </header>
     <Table>

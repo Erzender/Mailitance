@@ -45,6 +45,7 @@ const Contact = db.sequelize.define("contact", {
   help: { type: Sequelize.BOOLEAN, defaultValue: false },
   status: Sequelize.INTEGER, // code => 0 => neutre, 1 => sympathisant, 2 => militant, 3 => organisateur
   rgpdConsent: { type: Sequelize.BOOLEAN, defaultValue: false },
+  detail: Sequelize.TEXT,
   comment: Sequelize.TEXT
 });
 

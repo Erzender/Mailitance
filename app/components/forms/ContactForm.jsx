@@ -11,13 +11,15 @@ import { FiAlertTriangle } from "react-icons/fi";
 const status = ["Neutre", "Sympathisant", "Militant", "Organisateur"];
 
 const topics = [
+  "Economie",
+  "Social",
   "Ecologie",
-  "Sortie du nucléaire",
-  "Acquis sociaux",
-  "Démocratie"
+  "Relations internationales défense",
+  "Droits",
+  "Sécurité"
 ];
 
-const comments = ["Appeler"];
+const details = ["Logement", "Accès aux Droits"];
 
 export const ContactForm = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -32,8 +34,8 @@ export const ContactForm = ({ groupId }) => {
         e.preventDefault();
         if (!data.topics) data.topics = [];
         if (!Array.isArray(data.topics)) data.topics = [data.topics];
-        if (!data.comment) data.comment = [];
-        if (!Array.isArray(data.comment)) data.comment = [data.comment];
+        if (!data.detail) data.detail = [];
+        if (!Array.isArray(data.detail)) data.detail = [data.detail];
         if (data.help === "-1") data.help = undefined;
         if (data.voteRegistration === "-1") data.voteRegistration = undefined;
         if (data.age > -1) data.age = parseInt(data.age);
@@ -189,20 +191,28 @@ export const ContactForm = ({ groupId }) => {
       />
 
       <fieldset>
-        <legend>Remarques</legend>
-        {comments.map((comment) => (
+        <legend>Autres</legend>
+        {details.map((detail) => (
           <StyledFormField
             formId="form-contact"
             type="checkbox"
-            name="comment"
-            id={`comment-${comment}`}
-            key={`comment-${comment}`}
-            value={comment}
-            label={comment}
+            name="detail"
+            id={`detail-${detail}`}
+            key={`detail-${detail}`}
+            value={detail}
+            label={detail}
           />
         ))}
       </fieldset>
 
+      <StyledFormField
+        formId="form-contact"
+        type="textarea"
+        name="comment"
+        label="Remarques"
+        validation={{ mandatory: false }}
+      />
+    
       <StyledFormField
         formId="form-contact"
         type="checkbox"
