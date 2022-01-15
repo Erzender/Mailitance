@@ -74,7 +74,7 @@ const checkRightsAndGetMembers = async (userId, groupId) => {
     return { error: "missing_parameters" };
   let isAdmin = await accountService.checkAdmin(userId);
   if (isAdmin.error) {
-    let isOperator = await accountService.checkOperator(actor, groupId);
+    let isOperator = await accountService.checkOperator(userId, groupId);
     if (isOperator.error) return isOperator;
   }
 
