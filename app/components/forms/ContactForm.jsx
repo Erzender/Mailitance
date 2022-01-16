@@ -30,7 +30,6 @@ export const ContactForm = ({ groupId }) => {
     <GenericForm
       id="form-contact"
       onSubmit={(e, data) => {
-        console.log(data);
         e.preventDefault();
         if (!data.topics) data.topics = [];
         if (!Array.isArray(data.topics)) data.topics = [data.topics];

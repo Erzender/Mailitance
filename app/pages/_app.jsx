@@ -1,7 +1,7 @@
 import {Provider, useSelector} from 'react-redux'
 
 import {store} from '../redux/store'
-import {isLoggedInSelector, loadedSelector} from "../redux/account/accountSelectors";
+import {isLoggedInSelector, loadedSelector, isAdminSelector} from "../redux/account/accountSelectors";
 import {Header} from "../components/layout/Header/Header";
 import {useRouter} from "next/router";
 import {AdminNav} from "../components/layout/AdminNav/AdminNav";
@@ -13,11 +13,12 @@ setErrors({mandatory: 'Ce champs est requis'});
 
 const Wrapper = ({children}) => {
   const isLoggedIn = useSelector(isLoggedInSelector);
+  const admin = useSelector(isAdminSelector);
   const router = useRouter();
   return <ErrorBoundary>{isLoggedIn
     ? <>
       <Header/>
-      {router.route.startsWith('/admin') && <AdminNav/>}
+      {router.route.startsWith('/admin') && admin && <AdminNav/>}
       {children}
     </>
     : children}

@@ -21,6 +21,9 @@ export default function groupReducer(state = initialState, action) {
       })
 
     case asyncActionSuccess(CONTACTS_DELETE):
+      if (!state.list) {
+        return;
+      }
       return update(state, {
         list: { $set: state.list.filter(c => !action.contactsMailsOrPhones.includes(c.email) && !action.contactsMailsOrPhones.includes(c.phone)) }
       })

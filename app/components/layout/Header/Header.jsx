@@ -51,7 +51,7 @@ export const Header = () => {
           </li>}
         </>}
 
-        {admin && <li>
+        {(admin || (selectedGroup && operatingGroups.includes(selectedGroup.id))) && <li>
           <Link href="/admin">
             <a className={router.asPath.startsWith('/admin') ? 'is-active' : null}>Admin</a>
           </Link>

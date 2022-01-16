@@ -43,7 +43,7 @@ const checkOperator = async (userId, groupId = null) => {
   if (
     groups.length === 0 ||
     (groupId !== null &&
-      !groups.map(group => group.dataValues.id).includes(groupId))
+      !groups.map(group => "" + group.dataValues.id).includes(groupId))
   ) {
     return checkAdmin(userId);
   }
@@ -56,7 +56,7 @@ const checkMilitant = async (userId, groupId = null) => {
   if (
     groups.length === 0 ||
     (groupId !== null &&
-      !groups.map(group => group.dataValues.id).includes(groupId))
+      !groups.map(group => "" + group.dataValues.id).includes(groupId))
   ) {
     return checkOperator(userId, groupId);
   }
@@ -90,7 +90,11 @@ const login = async (username, password) => {
   if (!compare) {
     return { error: "wrong_password" };
   }
-  return { error: false, userId: user.dataValues.id, admin: user.dataValues.admin };
+  return {
+    error: false,
+    userId: user.dataValues.id,
+    admin: user.dataValues.admin
+  };
 };
 
 const init = async () => {
@@ -180,11 +184,11 @@ const get = async (actor, userId) => {
   return { error: false };
 };
 
-const getAll = async (userId) => {
+const getAll = async userId => {
   const user = await data.User.findByPk(userId, {
     include: {
       model: data.Group,
-      as: 'OperatingGroups'
+      as: "OperatingGroups"
     }
   });
 
@@ -192,7 +196,7 @@ const getAll = async (userId) => {
     return { error: "forbidden" };
   const users = await data.User.findAll();
   return users.map(u => u.formattedUser);
-}
+};
 
 exports.addAccount = addAccount;
 exports.login = login;

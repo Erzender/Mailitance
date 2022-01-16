@@ -58,7 +58,6 @@ export const ContactsList = ({ buttons }) => {
         if (Array.isArray(c[searchParam])) {return c[searchParam].some(elem => elem.toLowerCase().includes(search?.toLowerCase()))}
         return c[searchParam]?.toLowerCase().includes(search?.toLowerCase())
       }).sort((a,b) => {
-        console.log(sorter)
         const order = b[sorter.name] < a[sorter.name]  ? 1 : -1;
         return sorter.order > 0 ? order : -order;
       }).map(c => <tr key={c.id}>

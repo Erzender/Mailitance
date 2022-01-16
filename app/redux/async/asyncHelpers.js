@@ -19,6 +19,7 @@ export const apiFetch = async (url, options) => {
   if (r.status < 299) return r.json();
   let err = await r.text();
 
+
   switch (err) {
     case "invalid_token":
       store.dispatch(accountLogout());

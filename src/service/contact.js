@@ -105,8 +105,8 @@ const checkRightsAndGetContacts = async (userId, groupId, param) => {
     if (!user) return { error: "unknown_user" };
     let group = await data.Group.findByPk(groupId);
     if (!group) return { error: "unknown_group" };
-    let isMilitant = await accountService.checkOperator(userId, groupId);
-    if (isMilitant.error) return isMilitant;
+    let isOperator = await accountService.checkOperator(userId, groupId);
+    if (isOperator.error) return isOperator;
 
     let groups = await groupService.getSubGroupsIds(group);
     let search = {};

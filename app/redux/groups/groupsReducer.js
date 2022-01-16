@@ -21,7 +21,7 @@ export default function groupReducer(state = initialState, action) {
   switch (action.type) {
     case asyncActionSuccess(SHARED_INITIAL_FETCH):
     case asyncActionSuccess(GROUPS_FETCH): {
-      const list = action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []}));
+      const list = action.groups ? action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []})) : [];
 
 
       let selected = list[0].id ;
@@ -66,7 +66,6 @@ export default function groupReducer(state = initialState, action) {
     case asyncActionSuccess(GROUPS_ADD_ACTIVIST): {
       const groupIndex = state.list.findIndex(g => g.id === action.groupId);
       if (groupIndex < 0) return state;
-      console.log(action)
       return update(state, {
         list: {
           [groupIndex]: {
