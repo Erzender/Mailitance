@@ -24,7 +24,7 @@ export const AdminGroupsManage = () => {
     <Head>
       <title>Création de groupe | Mailitance</title>
     </Head>
-    <h1>Gestion des contacts du groupe {group.title}</h1>
+    <h1>Gestion des contacts du groupe {group && group.title}</h1>
     {contacts ? <Table>
     <thead>
     <tr>
