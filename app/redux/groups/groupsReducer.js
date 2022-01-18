@@ -24,7 +24,7 @@ export default function groupReducer(state = initialState, action) {
       const list = action.groups ? action.groups.map(g => ({ ...g, militants: g.militants || [], operators: g.operators || []})) : [];
 
 
-      let selected = list[0].id ;
+      let selected = list.length > 0 ? list[0].id : null;
         const g = window.localStorage.getItem('group');
         if (g) selected = parseInt(g);
 
