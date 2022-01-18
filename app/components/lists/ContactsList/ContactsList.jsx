@@ -1,5 +1,5 @@
 import styles from './ContactList.module.css'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {contactsListSelector} from "../../../redux/contacts/contactsSelector";
 import {FiCheck, FiX} from "react-icons/fi";
@@ -7,15 +7,16 @@ import {Table} from "../Table/Table";
 import tableStyles from "../Table/Table.module.css";
 import {StyledFormField} from "../../forms/StyledFormField/StyledFormField";
 import {Button} from "../../buttons/Button/Button";
+import {agesOptions, statusOptions} from "../../../constants";
 
 const sorters = [
   { label: 'E-mail', name: 'email' },
   { label: 'Tél', name: 'phone' },
-  { label: 'Âge', name: 'age' },
+  { label: 'Âge', name: 'age', options: agesOptions },
   { label: 'Quartier', name: 'district' },
   { label: 'Secteur électoral', name: 'voteSector' },
   { label: 'Sujets d\'intérêt', name: 'topics' },
-  { label: 'Jugement sur la FI', name: 'status' },
+  { label: 'Jugement sur la FI', name: 'status', options: statusOptions },
   { label: 'Autres', name: 'detail' },
   { label: 'Remarques', name: 'comment' },
 ]
@@ -32,11 +33,18 @@ export const ContactsList = ({ buttons }) => {
     if (_sorter !== sorter.name) setSorter({ name: _sorter, order: 1 });
     else setSorter({ name: _sorter, order: sorter.order === 1 ? -1 : 1})
   }
+
+  const activeSorter = sorters.find(({name}) => name === searchParam);
+
+  useEffect(() => {
+    setSearch('');
+  }, [ searchParam ])
+
   return <div className={styles.list}>
     <header>
       <div className={styles.search}>
         <StyledFormField label="Filter" onChange={e => setSearchParam(e.target.value)} type="select" options={sorters.map(s => ({ label: s.label, value: s.name}))} />
-        <StyledFormField label={<span className="visually-hidden">Recherche</span> } onChange={e => setSearch(e.target.value)} type="search" />
+        <StyledFormField label={<span className="visually-hidden">Recherche</span> } value={search} onChange={e => setSearch(e.target.value === '-1' ? '' : e.target.value)} type={activeSorter?.options ? 'select' : 'search'} options={activeSorter?.options} />
       </div>
       {buttons.length && <div className={styles.buttons}>
       {buttons.map((b, i) => <Button key={"button" + i} {...b}/>)}
@@ -55,8 +63,16 @@ export const ContactsList = ({ buttons }) => {
       <tbody>
       {contacts?.filter(c => {
         if (!search) return true;
-        if (Array.isArray(c[searchParam])) {return c[searchParam].some(elem => elem.toLowerCase().includes(search?.toLowerCase()))}
-        return c[searchParam]?.toLowerCase().includes(search?.toLowerCase())
+        if (!c[searchParam]) return false;
+
+        let value = c[searchParam];
+
+        if (Array.isArray(value)) {
+          return c[searchParam].some(elem => elem.toLowerCase().includes(search?.toLowerCase()))
+        }
+        if( typeof value === 'number') value = value.toString();
+
+        return value?.toLowerCase().includes(search?.toLowerCase())
       }).sort((a,b) => {
         const order = b[sorter.name] < a[sorter.name]  ? 1 : -1;
         return sorter.order > 0 ? order : -order;

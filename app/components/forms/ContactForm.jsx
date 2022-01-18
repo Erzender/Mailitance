@@ -7,19 +7,8 @@ import { Button } from "../buttons/Button/Button";
 import { contactsCreate } from "../../redux/contacts/contactsActions";
 import { useRouter } from "next/router";
 import { FiAlertTriangle } from "react-icons/fi";
+import { statusOptions, topics, details, agesOptions } from '../../constants';
 
-const status = ["Neutre", "Sympathisant", "Militant", "Organisateur"];
-
-const topics = [
-  "Economie",
-  "Social",
-  "Ecologie",
-  "Relations internationales défense",
-  "Droits",
-  "Sécurité"
-];
-
-const details = ["Logement", "Accès aux Droits"];
 
 export const ContactForm = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -78,32 +67,7 @@ export const ContactForm = ({ groupId }) => {
         type="select"
         name="age"
         label="Age"
-        options={[
-          {
-            label: "Sélectionner une tranche d'âge",
-            value: -1
-          },
-          {
-            label: "16-25 ans",
-            value: 16
-          },
-          {
-            label: "26-35 ans",
-            value: 26
-          },
-          {
-            label: "36-50 ans",
-            value: 36
-          },
-          {
-            label: "51-61 ans",
-            value: 51
-          },
-          {
-            label: "Plus de 62 ans",
-            value: 62
-          }
-        ]}
+        options={agesOptions}
       />
       <StyledFormField
         formId="form-contact"
@@ -177,16 +141,7 @@ export const ContactForm = ({ groupId }) => {
         type="select"
         name="status"
         label="Jugement sur la France Insoumise"
-        options={[
-          {
-            label: "Sélectionner un statut",
-            value: -1
-          },
-          ...status.map((s, i) => ({
-            label: s,
-            value: i
-          }))
-        ]}
+        options={statusOptions}
       />
 
       <fieldset>
