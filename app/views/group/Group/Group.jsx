@@ -86,11 +86,12 @@ export const Group = ({groupId}) => {
             link.click();
             document.body.removeChild(link);
           }
-        },
-        (admin | isOperator) && {
-          children: 'Importer CSV',
-          onClick: () => inputFileRef.current.click()
         }
+        // ,
+        // (admin | isOperator) && {
+        //   children: 'Importer CSV',
+        //   onClick: () => inputFileRef.current.click()
+        // }
       ]} />
   </main> : 'Loading';
 }
