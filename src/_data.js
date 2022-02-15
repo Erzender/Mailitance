@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 require("dotenv").config();
 
 let options = {};
-if (process.env.ENV !== "dev") {
+if (process.env.ENV !== "dev" && process.env.MAILITANCE_DB_SSL === "true") {
   options["ssl"] = true;
   options["dialectOptions"] = {
     ssl: { require: true, rejectUnauthorized: false },

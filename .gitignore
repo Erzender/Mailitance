@@ -9,3 +9,5 @@ app/public/sw.js.map
 app/public/workbox-*.js
 app/public/workbox-*.js.map
 app/out
+
+docker-compose.yml
