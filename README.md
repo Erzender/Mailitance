@@ -22,8 +22,12 @@ Le système conduit intrinsèquement à l'hébergement de données sensibles, so
 - L'application est accessible sur http://localhost:8080/
 
 ### Travailler sur le front
-- `cd ./app ; npm start`
-- L'application recharge automatiquement sur http://localhost:8080/ (8081 si occupé)
+- `cd ./app ; npm run dev`
+- L'application recharge automatiquement sur http://localhost:3000/
+
+### (Autre) Déployer avec Docker
+- Configurer un docker-compose.yml (exemple [`docker-compose.yml.dist`](/.docker-compose.yml.dist))
+- `docker-compose up`
 
 ## [Spécifications🔗](/doc/Specifications.md)
 
