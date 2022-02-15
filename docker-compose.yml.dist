@@ -1,0 +1,21 @@
+services:
+  app:
+    build:
+      context: ./
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MAILITANCE_DB: postgres://user:password@db:5432/database
+      MAILITANCE_SECRET: secret
+      MAILITANCE_DB_SSL: false
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5436:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
