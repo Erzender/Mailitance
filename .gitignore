@@ -11,3 +11,4 @@ app/public/workbox-*.js.map
 app/out
 
 docker-compose.yml
+db-data

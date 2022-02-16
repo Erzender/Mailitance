@@ -10,7 +10,10 @@ services:
       MAILITANCE_DB: postgres://user:password@db:5432/database
       MAILITANCE_SECRET: secret
       MAILITANCE_DB_SSL: false
+      NEXT_PUBLIC_API_HOST: ""
   db:
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
     image: postgres
     restart: always
     ports:
