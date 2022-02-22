@@ -2,7 +2,7 @@ import styles from './ContactList.module.css'
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {contactsListSelector} from "../../../redux/contacts/contactsSelector";
-import {FiCheck, FiX} from "react-icons/fi";
+import {FiCheck, FiX, FiAlertTriangle} from "react-icons/fi";
 import {Table} from "../Table/Table";
 import tableStyles from "../Table/Table.module.css";
 import {StyledFormField} from "../../forms/StyledFormField/StyledFormField";
@@ -41,6 +41,10 @@ export const ContactsList = ({ buttons }) => {
   }, [ searchParam ])
 
   return <div className={styles.list}>
+    <div>
+      <p align="justify"><FiAlertTriangle /> Les données stockées ici sont à utiliser dans le respect de la loi pour ne pas porter préjudice au mouvement. Veiller à traiter les demandes de suppression reçues par mail ou téléphone/sms (l'action peut être effectuée depuis le panneau <a href="/admin">Admin</a>). Lors d'un envoi de mail, ajouter le texte suivant au corps du message :</p>
+      <p style={{paddingLeft: 5, borderWidth: 0, borderLeftWidth: 5, borderStyle: "solid", borderColor: "white"}} align="justify">Conformément à la loi Informatique et Libertés 78-17 du 6 janvier 1978 modifiée ainsi qu’au Règlement européen sur la protection des données (RGPD), vous bénéficiez d’un droit d’accès, de rectification, d’opposition et d’effacement de vos données personnelles. Pour exercer ces droits ou pour toute question sur le traitement de vos données dans ce dispositif, vous pouvez recontacter la présente adresse.</p>
+    </div><br/>
     <header>
       <div className={styles.search}>
         <StyledFormField label="Filter" onChange={e => setSearchParam(e.target.value)} type="select" options={sorters.map(s => ({ label: s.label, value: s.name}))} />

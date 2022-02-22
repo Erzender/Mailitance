@@ -7,8 +7,7 @@ import { Button } from "../buttons/Button/Button";
 import { contactsCreate } from "../../redux/contacts/contactsActions";
 import { useRouter } from "next/router";
 import { FiAlertTriangle } from "react-icons/fi";
-import { statusOptions, topics, details, agesOptions } from '../../constants';
-
+import { statusOptions, topics, details, agesOptions } from "../../constants";
 
 export const ContactForm = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -166,7 +165,7 @@ export const ContactForm = ({ groupId }) => {
         label="Remarques"
         validation={{ mandatory: false }}
       />
-    
+
       <StyledFormField
         formId="form-contact"
         type="checkbox"
@@ -175,13 +174,14 @@ export const ContactForm = ({ groupId }) => {
         validation={{ mandatory: true }}
         label={
           <>
-            <FiAlertTriangle /> La personne est renseignée sur ses droits en
-            matière de données personnelles et du règlement général sur la
-            protection des données (RGPD) et consent à ce que les données
-            recueillies dans ce formulaire soient conservées et utilisées dans
-            le cadre strict de la communication des groupes militants de la
-            France Insoumise, dans la limite de 2 ans sauf si demande anticipée
-            de suppression de ces dernières.
+            <FiAlertTriangle /> La personne est renseignée sur l'utilisation des
+            données collectées : <br /> « Les données collectées seront
+            uniquement utilisées pour vous transmettre des informations
+            politiques susceptibles de vous intéresser, en fonction de votre
+            zone géographique, de votre tranche d'âge mais également de vos
+            centres d'intérêts. Si vous avez un besoin d'assistance
+            administrative, nous pourrons également utiliser les données
+            collectées à cette fin. »
           </>
         }
       />

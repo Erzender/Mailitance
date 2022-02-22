@@ -19,7 +19,7 @@ export const Login = () => {
       <title>Mailitance | Connexion</title>
     </Head>
     <div className={styles.login}>
-      <img src="/logo.svg" alt=""/>
+      <img src="/logo.svg" alt="" width="300px"/>
       <p>MAILITANCE - le carnet d'adresses militant</p>
       <LoginForm />
     </div>
