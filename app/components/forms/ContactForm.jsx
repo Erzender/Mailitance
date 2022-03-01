@@ -51,7 +51,7 @@ export const ContactForm = ({ groupId }) => {
         formId="form-contact"
         type="email"
         name="email"
-        label="E-mail"
+        label="E-mail*"
         validation={{ mandatory: true }}
       />
       <StyledFormField
@@ -72,7 +72,7 @@ export const ContactForm = ({ groupId }) => {
         formId="form-contact"
         type="address"
         name="address"
-        label="Adresse"
+        label="Adresse (champ facultatif : compléter si la personne le propose ; permet de faciliter des réunions ou de mobiliser sur place)"
         validation={{ mandatory: false }}
       />
       <StyledFormField
@@ -181,10 +181,11 @@ export const ContactForm = ({ groupId }) => {
             zone géographique, de votre tranche d'âge mais également de vos
             centres d'intérêts. Si vous avez un besoin d'assistance
             administrative, nous pourrons également utiliser les données
-            collectées à cette fin. »
+            collectées à cette fin. »*
           </>
         }
       />
+      *Champs requis<br /><br/>
 
       <Button>Créer le contact</Button>
     </GenericForm>
